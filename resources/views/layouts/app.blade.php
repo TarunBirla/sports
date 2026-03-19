@@ -20,9 +20,9 @@
         --accent:#1a6fd4;
         --accent-light:#e3eefd;
         --accent-hover:#1558b0;
-        --green:#16a34a;
-        --green-light:#dcfce7;
-        --green-border:#86efac;
+        --green:#2563eb;
+        --green-light:#dbeafe;
+        --green-border:#93c5fd;
         --blue:#2563eb;
         --blue-light:#dbeafe;
         --blue-border:#93c5fd;

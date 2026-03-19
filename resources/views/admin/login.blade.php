@@ -7,7 +7,7 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0d0f14; --surface: #13161e; --surface2: #1a1e2a;
+  --bg: #b3b8c4; --surface: #242938; --surface2: #1a1e2a;
   --border: rgba(255,255,255,0.06); --accent: #4f8ef7; --accent2: #7c5cf7;
   --danger: #f75f5f; --text: #e8eaf0; --muted: #6b7280;
 }

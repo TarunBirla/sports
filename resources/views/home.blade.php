@@ -27,9 +27,9 @@
     <div class="grid">
         @foreach($products as $p)
             <div class="card">
-            <div class="card-media" style="background:linear-gradient(135deg,#0f1f0f,#1a2e1a)">
+            <div class="card-media" style="background:linear-gradient(135deg,#0a0f1f,#101828)">
                 
-                <div class="card-media-inner" style="background:rgba(34,197,94,0.12)">
+                <div class="card-media-inner" style="background:rgba(59,130,246,0.12)">
                 📚
                 </div>
 

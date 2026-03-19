@@ -9,16 +9,16 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:       #353a45;
+  --bg:       #0d0f14;
   --surface:  #13161e;
   --surface2: #1a1e2a;
-  --border:   #000000;
+  --border:   rgba(255,255,255,0.06);
   --accent:   #4f8ef7;
   --accent2:  #7c5cf7;
   --success:  #22d3a0;
   --danger:   #f75f5f;
   --text:     #e8eaf0;
-  --muted:    #fff;
+  --muted:    #6b7280;
   --sidebar-w: 240px;
 }
 
