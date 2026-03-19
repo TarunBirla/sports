@@ -1,50 +1,55 @@
 @extends('admin.layout')
 
+@section('page_title', 'Vendors')
+
 @section('content')
 
-<h2 style="margin-bottom:15px">🏪 Vendor List</h2>
+<div class="page-header">
+    <h1>Vendor List</h1>
+    <p>All registered product and training vendors</p>
+</div>
 
 @if($vendors->count() == 0)
 
-    <div style="background:#fff;padding:20px;border-radius:10px">
-        No vendors found 😢
+    <div class="table-wrap">
+        <div class="empty-state">
+            <span class="emoji">🏪</span>
+            <p>No vendors found</p>
+        </div>
     </div>
 
 @else
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Type</th>
-        <th>Joined</th>
-    </tr>
-
-    @foreach($vendors as $v)
-    <tr>
-        <td>{{ $v->id }}</td>
-        <td>{{ $v->name }}</td>
-        <td>{{ $v->email }}</td>
-
-        <!-- TYPE BADGE -->
-        <td>
-            @if($v->type == 'training')
-                <span style="background:#dcfce7;color:#16a34a;padding:4px 8px;border-radius:6px;font-size:12px">
-                    Product Vendor
-                </span>
-            @else
-                <span style="background:#dbeafe;color:#2563eb;padding:4px 8px;border-radius:6px;font-size:12px">
-                    Training Vendor 
-                </span>
-            @endif
-        </td>
-
-        <td>{{ $v->created_at->format('d M Y') }}</td>
-    </tr>
-    @endforeach
-
-</table>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>#ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Joined</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($vendors as $v)
+            <tr>
+                <td>#{{ $v->id }}</td>
+                <td style="font-weight:500;color:var(--text)">{{ $v->name }}</td>
+                <td style="color:var(--muted)">{{ $v->email }}</td>
+                <td>
+                    @if($v->type == 'training')
+                        <span class="badge badge-purple">Training Vendor</span>
+                    @else
+                        <span class="badge badge-green">Product Vendor</span>
+                    @endif
+                </td>
+                <td style="color:var(--muted)">{{ $v->created_at->format('d M Y') }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
 @endif
 
