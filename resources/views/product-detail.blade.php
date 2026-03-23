@@ -3,7 +3,7 @@
 @section('content')
 
 {{-- Google Fonts --}}
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
     :root {
@@ -204,7 +204,7 @@
 
 <div class="max-w-6xl mx-auto px-4 py-8">
 
-   
+ 
 
     {{-- MAIN PRODUCT AREA --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -231,18 +231,7 @@
                 @endif
             </div>
 
-            {{-- Thumbnail row (static demo thumbs) --}}
-            <!-- @if($product->image)
-            <div class="thumb-grid">
-                <div class="thumb active" onclick="switchThumb(this, '{{ asset('products/'.$product->image) }}')">
-                    <img src="{{ asset('products/'.$product->image) }}" alt="">
-                </div>
-                {{-- Static placeholder thumbs for UI completeness --}}
-                <div class="thumb" style="background:#f0ede8;display:flex;align-items:center;justify-content:center;font-size:20px;">🏅</div>
-                <div class="thumb" style="background:#e8f2eb;display:flex;align-items:center;justify-content:center;font-size:20px;">📋</div>
-                <div class="thumb" style="background:#fdf6ec;display:flex;align-items:center;justify-content:center;font-size:20px;">🎯</div>
-            </div>
-            @endif -->
+            
         </div>
 
         {{-- ===== RIGHT: PRODUCT DETAILS ===== --}}
@@ -271,27 +260,56 @@
                 {{ $product->description }}
             </p>
 
-            <!-- PRICE -->
-            <div style="font-size:1.8rem;color:green;font-weight:600">
-                ₹{{ $product->price }}
+            {{-- Price --}}
+            <div class="flex items-center gap-3 mb-5">
+                @if($product->sale_price && $product->sale_price < $product->price)
+                    <span class="price-main">£{{ number_format($product->sale_price, 2) }}</span>
+                    <span class="price-old">£{{ number_format($product->price, 2) }}</span>
+                    <span class="discount-chip">Save £{{ number_format($product->price - $product->sale_price, 2) }}</span>
+                @else
+                    <span class="price-main">£{{ number_format($product->price, 2) }}</span>
+                @endif
             </div>
 
-            @if($product->sale_price)
-                <div style="color:red">
-                    Sale Price: ₹{{ $product->sale_price }}
+            {{-- Meta info rows --}}
+            <div style="margin-bottom:20px;">
+                <div class="meta-row">
+                    <span class="meta-label">Availability</span>
+                    @if($product->stock > 0)
+                        <span class="stock-in">✔ In Stock ({{ $product->stock }} left)</span>
+                    @else
+                        <span class="stock-out">✖ Out of Stock</span>
+                    @endif
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">SKU</span>
+                    <span class="meta-value">TRN-{{ str_pad($product->id, 5, '0', STR_PAD_LEFT) }}</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">Category</span>
+                    <span class="meta-value">{{ optional($product->category)->name ?? '—' }}</span>
+                </div>
+                {{-- Duration - static UI example --}}
+                <div class="meta-row">
+                    <span class="meta-label">Duration</span>
+                    <span class="meta-value">6 Weeks (Static)</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">Level</span>
+                    <span class="meta-value">Beginner – Advanced (Static)</span>
                 </div>
             </div>
 
             {{-- Qty + Buttons --}}
             @if($product->stock > 0)
-            
+           
 
             <div class="flex gap-3 flex-wrap">
                 <a href="{{ url('/cart/add/training/'.$product->id) }}"
                    class="btn-cart" id="addCartBtn">
                     🛒 Add to Cart
                 </a>
-              
+               
             </div>
             @else
             <div style="background:#fde8e8;border:1px solid #f5c6c6;border-radius:14px;padding:16px 20px;color:var(--red-soft);font-weight:600;margin-bottom:16px;">
@@ -456,7 +474,7 @@
     </div>
 
     {{-- ===== RELATED PRODUCTS (Static) ===== --}}
-   <div class="mt-12">
+  <div class="mt-12">
     <h2 class="text-2xl font-bold mb-6">You May Also Like</h2>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
