@@ -16,6 +16,37 @@
                     <p class="text-sm mt-2">{{ $b->description }}</p>
                 </div>
 
+<<<<<<< HEAD
+=======
+                <span class="card-media-tag tag-training">Products</span>
+            </div>
+
+            <div class="card-body">
+                <div class="card-title">{{ $p->title }}</div>
+
+                <div class="card-desc">
+                    {{ Str::limit($p->description, 100) }}
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <div class="price price-green">£{{ $p->price }}</div>
+
+               @if(auth()->check())
+    <a href="{{ url('/cart/add/training/'.$p->id) }}" class="add-btn add-green">
+        + Add to cart
+    </a>
+@else
+    <a href="/login" class="add-btn add-green">
+        + Add to cart
+    </a>
+@endif
+               <a href="{{ url('product/'.$p->id) }}"
+                class="add-btn add-green">
+                + View
+                </a>
+            </div>
+>>>>>>> 86844bb5a3c3a0de2ea8d892459330bd437bf977
             </div>
         @endforeach
 
@@ -57,8 +88,13 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <!-- PREMIUM DROPDOWN -->
             <form method="GET" action="/" class="relative">
+=======
+            <div class="card-footer">
+                <div class="price price-blue">£{{ $c->price }}</div>
+>>>>>>> 86844bb5a3c3a0de2ea8d892459330bd437bf977
 
                 <select name="category" onchange="this.form.submit()" class="appearance-none bg-white border border-gray-200 text-gray-700 text-sm font-medium
                            px-4 py-2 pr-10 rounded-xl shadow-sm

@@ -271,43 +271,14 @@
                 {{ $product->description }}
             </p>
 
-            {{-- Price --}}
-            <div class="flex items-center gap-3 mb-5">
-                @if($product->sale_price && $product->sale_price < $product->price)
-                    <span class="price-main">£{{ number_format($product->sale_price, 2) }}</span>
-                    <span class="price-old">£{{ number_format($product->price, 2) }}</span>
-                    <span class="discount-chip">Save £{{ number_format($product->price - $product->sale_price, 2) }}</span>
-                @else
-                    <span class="price-main">£{{ number_format($product->price, 2) }}</span>
-                @endif
+            <!-- PRICE -->
+            <div style="font-size:1.8rem;color:green;font-weight:600">
+                ₹{{ $product->price }}
             </div>
 
-            {{-- Meta info rows --}}
-            <div style="margin-bottom:20px;">
-                <div class="meta-row">
-                    <span class="meta-label">Availability</span>
-                    @if($product->stock > 0)
-                        <span class="stock-in">✔ In Stock ({{ $product->stock }} left)</span>
-                    @else
-                        <span class="stock-out">✖ Out of Stock</span>
-                    @endif
-                </div>
-                <div class="meta-row">
-                    <span class="meta-label">SKU</span>
-                    <span class="meta-value">TRN-{{ str_pad($product->id, 5, '0', STR_PAD_LEFT) }}</span>
-                </div>
-                <div class="meta-row">
-                    <span class="meta-label">Category</span>
-                    <span class="meta-value">{{ optional($product->category)->name ?? '—' }}</span>
-                </div>
-                {{-- Duration - static UI example --}}
-                <div class="meta-row">
-                    <span class="meta-label">Duration</span>
-                    <span class="meta-value">6 Weeks (Static)</span>
-                </div>
-                <div class="meta-row">
-                    <span class="meta-label">Level</span>
-                    <span class="meta-value">Beginner – Advanced (Static)</span>
+            @if($product->sale_price)
+                <div style="color:red">
+                    Sale Price: ₹{{ $product->sale_price }}
                 </div>
             </div>
 

@@ -25,6 +25,7 @@
                 onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">+ Add Product</a>
         </div>
 
+<<<<<<< HEAD
         @if(count($products) === 0)
 
             {{-- Empty state --}}
@@ -58,6 +59,14 @@
                     <div
                         style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#8aaac8;text-align:right">
                         Actions</div>
+=======
+                {{-- Price --}}
+                <div>
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.03em;color:#16a34a">£{{ number_format($p->price, 2) }}</div>
+                    @if($p->sale_price)
+                        <div style="font-size:0.75rem;color:#ef4444;font-family:'DM Sans',sans-serif">Sale: £{{ number_format($p->sale_price, 2) }}</div>
+                    @endif
+>>>>>>> 86844bb5a3c3a0de2ea8d892459330bd437bf977
                 </div>
 
                 {{-- Rows --}}
