@@ -53,21 +53,55 @@ class VendorController extends Controller
     }
 
     // ✅ Dashboard
-   public function dashboard()
-{
-    if (!Session::has('vendor_id')) {
-        return redirect('/vendor/login');
-    }
+    public function dashboard()
+    {
+        if (!Session::has('vendor_id')) {
+            return redirect('/vendor/login');
+        }
 
-    $type = Session::get('vendor_type');
+        $vendorId = Session::get('vendor_id');
+        $type = Session::get('vendor_type');
 
-    // 🔥 type के हिसाब से dashboard redirect
-    if($type == 'training'){
-        return redirect('/vendor/training');
-    }else{
-        return redirect('/vendor/course');
+        if ($type == 'training') {
+
+            $totalProducts = Product::where('vendor_id', $vendorId)->count();
+
+            $productIds = Product::where('vendor_id', $vendorId)->pluck('id');
+
+            $totalOrders = OrderItem::where('type', 'training')
+                ->whereIn('item_id', $productIds)
+                ->count();
+
+            $totalCategories = \App\Models\Category::where('type', 'product')->count();
+
+            return view('vendor.dashboard', compact(
+                'type',
+                'totalProducts',
+                'totalOrders',
+                'totalCategories'
+            ));
+        }
+
+        if ($type == 'course') {
+
+            $totalCourses = Course::where('vendor_id', $vendorId)->count();
+
+            $courseIds = Course::where('vendor_id', $vendorId)->pluck('id');
+
+            $totalOrders = OrderItem::where('type', 'course')
+                ->whereIn('item_id', $courseIds)
+                ->count();
+
+            $totalCategories = \App\Models\Category::where('type', 'course')->count();
+
+            return view('vendor.dashboard', compact(
+                'type',
+                'totalCourses',
+                'totalOrders',
+                'totalCategories'
+            ));
+        }
     }
-}
 
     // ✅ Logout
     public function logout()
@@ -79,43 +113,83 @@ class VendorController extends Controller
     }
 
     public function vendorOrders()
-{
-    $vendorId = Session::get('vendor_id');
+    {
+        $vendorId = Session::get('vendor_id');
 
-    // vendor ke products ids
-    $productIds = Product::where('vendor_id', $vendorId)->pluck('id');
+        // vendor ke products ids
+        $productIds = Product::where('vendor_id', $vendorId)->pluck('id');
 
-    // sirf us vendor ke products ke orders
-    $orders = OrderItem::with(['order.user'])
-        ->where('type', 'training')
-        ->whereIn('item_id', $productIds)
-        ->get();
+        // sirf us vendor ke products ke orders
+        $orders = OrderItem::with(['order.user'])
+            ->where('type', 'training')
+            ->whereIn('item_id', $productIds)
+            ->get();
 
-    return view('vendor.training.orders', compact('orders'));
-}
+        return view('vendor.training.orders', compact('orders'));
+    }
 
-public function courseOrders()
-{
-    $vendorId = Session::get('vendor_id');
+    public function courseOrders()
+    {
+        $vendorId = Session::get('vendor_id');
 
-    // vendor ke course ids
-    $courseIds = Course::where('vendor_id', $vendorId)->pluck('id');
+        // vendor ke course ids
+        $courseIds = Course::where('vendor_id', $vendorId)->pluck('id');
 
-    // sirf us vendor ke course orders
-    $orders = OrderItem::with(['order.user', 'course'])
-        ->where('type', 'course')
-        ->whereIn('item_id', $courseIds)
-        ->get();
+        // sirf us vendor ke course orders
+        $orders = OrderItem::with(['order.user', 'course'])
+            ->where('type', 'course')
+            ->whereIn('item_id', $courseIds)
+            ->get();
 
-    return view('vendor.course.orders', compact('orders'));
-}
-public function profile()
+        return view('vendor.course.orders', compact('orders'));
+    }
+    public function profile()
 {
     if (!Session::has('vendor_id')) {
         return redirect('/vendor/login');
     }
 
-    $vendor = Vendor::find(Session::get('vendor_id'));
+    $vendorId = Session::get('vendor_id');
+    $type = Session::get('vendor_type');
+
+    $vendor = Vendor::find($vendorId);
+
+    if($type == 'training'){
+
+        // PRODUCTS COUNT
+        $vendor->products_count = Product::where('vendor_id',$vendorId)->count();
+
+        // PRODUCT IDS
+        $productIds = Product::where('vendor_id',$vendorId)->pluck('id');
+
+        // ORDERS COUNT
+        $vendor->orders_count = OrderItem::where('type','training')
+            ->whereIn('item_id',$productIds)
+            ->count();
+
+        // REVENUE
+        $vendor->total_revenue = OrderItem::where('type','training')
+            ->whereIn('item_id',$productIds)
+            ->sum('price'); // 👈 ensure price column exists
+
+    } else {
+
+        // COURSES COUNT
+        $vendor->products_count = Course::where('vendor_id',$vendorId)->count();
+
+        // COURSE IDS
+        $courseIds = Course::where('vendor_id',$vendorId)->pluck('id');
+
+        // ORDERS COUNT
+        $vendor->orders_count = OrderItem::where('type','course')
+            ->whereIn('item_id',$courseIds)
+            ->count();
+
+        // REVENUE
+        $vendor->total_revenue = OrderItem::where('type','course')
+            ->whereIn('item_id',$courseIds)
+            ->sum('price');
+    }
 
     return view('vendor.profile', compact('vendor'));
 }
