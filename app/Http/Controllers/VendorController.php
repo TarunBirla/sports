@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\OrderItem;
 use App\Models\Course;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class VendorController extends Controller
 {
@@ -119,7 +120,7 @@ class VendorController extends Controller
     {
         Session::forget('vendor_id');
         Session::forget('vendor_type');
-
+        Auth::logout();
         return redirect('/vendor/login');
     }
 

@@ -17,7 +17,7 @@
       
       <a href="/login" class="btn btn-ghost">Login</a>
       <a href="/register" class="btn btn-accent">Register</a>
-      <a href="/vendor/login" style="background:#fef3c7;color:#b45309;border:1px solid #fcd34d" class="btn">Become Seller</a>
+      <a href="/vendor/register" style="background:#fef3c7;color:#b45309;border:1px solid #fcd34d" class="btn">Become Seller</a>
      
       @endif
     </nav>

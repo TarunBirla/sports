@@ -115,7 +115,7 @@
 
         {{-- Auth links --}}
         <div style="display:flex;gap:10px">
-            <a href="/vendor/login"
+            <a href="/login"
                style="flex:1;text-align:center;padding:9px;border-radius:10px;background:#e3eefd;color:#1a6fd4;font-size:0.85rem;font-weight:600;text-decoration:none;border:1px solid #93c5fd;transition:background 0.18s"
                onmouseover="this.style.background='#c8dff9'"
                onmouseout="this.style.background='#e3eefd'"
