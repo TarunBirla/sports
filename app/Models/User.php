@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +43,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+     public function statValues(): HasMany
+    {
+        return $this->hasMany(StatValue::class, 'user_id');
+    }
+ 
+    /**
+     * Get all stats recorded by this trainer
+     */
+    public function recordedStats(): HasMany
+    {
+        return $this->hasMany(StatValue::class, 'trainer_id');
+    }
+ 
+    /**
+     * Get all attendance records for this user
+     */
+    public function attendanceRecords(): HasMany
+    {
+        return $this->hasMany(AttendanceRecord::class, 'user_id');
+    }
+ 
+    /**
+     * Get all attendance records recorded by this trainer
+     */
+    public function recordedAttendance(): HasMany
+    {
+        return $this->hasMany(AttendanceRecord::class, 'trainer_id');
+    }
 }

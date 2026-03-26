@@ -297,41 +297,25 @@
         Dashboard
       </a>
 
-      @if(session('vendor_type') == 'training')
         <a href="/vendor/training" class="nav-link {{ request()->is('vendor/training') ? 'active' : '' }}">
           <div class="nav-icon" style="background:var(--green-light)">🏋️</div>
           Products
         </a>
 
-        <a href="/vendor/category?type=product"
-          class="nav-link {{ request()->is('vendor/category') && request('type') == 'product' ? 'active' : '' }}">
-          <div class="nav-icon" style="background:#fef3c7">📦</div>
-
-          Category
-        </a>
         <a href="/vendor/training/order" class="nav-link {{ request()->is('vendor/training/order') ? 'active' : '' }}">
           <div class="nav-icon" style="background:#fef3c7">📦</div>
-          Orders
+          Product Orders
         </a>
-      @endif
 
-      @if(session('vendor_type') == 'course')
         <a href="/vendor/course" class="nav-link {{ request()->is('vendor/course') ? 'active' : '' }}">
           <div class="nav-icon" style="background:#dbeafe">📚</div>
           Training
         </a>
-        <a href="/vendor/category?type=course"
-          class="nav-link {{ request()->is('vendor/category') && request('type') == 'course' ? 'active' : '' }}">
-          <div class="nav-icon" style="background:#fef3c7">📦</div>
 
-
-          Category
-        </a>
         <a href="/vendor/course/order" class="nav-link {{ request()->is('vendor/course/order') ? 'active' : '' }}">
           <div class="nav-icon" style="background:#fef3c7">📦</div>
-          Orders
+          Training Orders
         </a>
-      @endif
 
       <a href="/vendor/profile" class="nav-link {{ request()->is('vendor/profile*') ? 'active' : '' }}">
         <div class="nav-icon" style="background:#e0f2fe">👤</div>

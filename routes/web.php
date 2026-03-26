@@ -11,32 +11,64 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\TrainerStatsController;
 
 
-Route::get('/',[HomeController::class,'index']);
-Route::get('/platform/{id}', [HomeController::class, 'index']);
+    Route::get('/',[HomeController::class,'index']);
+    Route::get('/platform/{id}', [HomeController::class, 'index']);
 
-Route::get('/all-products', [HomeController::class, 'allProducts']);
-Route::get('/all-courses', [HomeController::class, 'allCourses']);
-// PRODUCT DETAIL
-Route::get('/product/{id}', [HomeController::class, 'productDetail']);
+    Route::get('/all-products', [HomeController::class, 'allProducts']);
+    Route::get('/all-courses', [HomeController::class, 'allCourses']);
+    // PRODUCT DETAIL
+    Route::get('/product/{id}', [HomeController::class, 'productDetail']);
 
-// COURSE DETAIL
-Route::get('/course/{id}', [HomeController::class, 'courseDetail']);
-Route::get('/orders/{id}', [OrderController::class, 'orderDetail']);
+    // COURSE DETAIL
+    Route::get('/course/{id}', [HomeController::class, 'courseDetail']);
+    Route::get('/orders/{id}', [OrderController::class, 'orderDetail']);
 
-// USER AUTH
-Route::get('/login',function(){
-    return view('auth.login');
-});
+    // USER AUTH
+    Route::get('/login',function(){
+        return view('auth.login');
+    });
 
-Route::get('/welcome',function(){
-    return view('welcome');
-});
+    Route::get('/welcome',function(){
+        return view('welcome');
+    });
 
-Route::get('/register',function(){
-    return view('auth.register');
-});
+    Route::get('/register',function(){
+        return view('auth.register');
+    });
+
+    // Show stats entry form
+    Route::get('/stats/create/{categoryId}/{userId?}', 
+        [TrainerStatsController::class, 'create'])
+        ->name('trainer.stats.create');
+
+    // Store stats
+    Route::post('/stats/store', 
+        [TrainerStatsController::class, 'store'])
+        ->name('trainer.stats.store');
+
+    // List all stats
+    Route::get('/stats', 
+        [TrainerStatsController::class, 'index'])
+        ->name('trainer.stats.index');
+
+    // Get stats (JSON)
+    Route::get('/stats/api/{userId}/{categoryId}', 
+        [TrainerStatsController::class, 'getStats'])
+        ->name('trainer.stats.api');
+
+    // Delete stat
+    Route::delete('/stats/{id}', 
+        [TrainerStatsController::class, 'destroy'])
+        ->name('trainer.stats.destroy');
+
+    // Export stats
+    Route::get('/stats/export', 
+        [TrainerStatsController::class, 'export'])
+        ->name('trainer.stats.export');
+
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
@@ -70,6 +102,18 @@ Route::get('/vendor/course/edit/{id}',[CourseController::class,'edit']);
 Route::put('/vendor/course/update/{id}',[CourseController::class,'update']);
 Route::delete('/vendor/course/delete/{id}',[CourseController::class,'delete']);
 Route::get('/vendor/course/order', [VendorController::class, 'courseOrders']);
+Route::get('/vendor/course-orders/{id}', [VendorController::class, 'courseOrderDetail'])
+    ->name('vendor.course.order.detail');
+
+
+    // Trainer
+Route::get('/trainer/stats/{category}', [VendorController::class, 'create']);
+Route::post('/trainer/stats/store', [VendorController::class, 'store'])->name('trainer.stats.store');
+
+
+// User
+Route::get('/dashboard/{category}', [AuthController::class, 'dashboard'])->name('user.dashboard');
+
 Route::get('/cart/remove/{id}', [CartController::class, 'remove']);
 
 Route::get('/add-training',[ProductController::class,'create']);

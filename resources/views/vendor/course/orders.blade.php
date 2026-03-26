@@ -25,6 +25,7 @@
 
                 @foreach($orders as $o)
 
+
                     <div
                         style="background:#fff;padding:1rem;border-radius:12px;display:flex;justify-content:space-between;align-items:center">
 
@@ -64,6 +65,11 @@
                             <div style="font-size:0.75rem;color:#888">
                                 Order #{{ $o->order_id }}
                             </div>
+                            <a href="{{ route('vendor.course.order.detail', $o->id) }}"
+                                style="font-size:0.8rem;color:#2563eb;text-decoration:underline">
+                                View Details
+                            </a>
+                          
 
                         </div>
 

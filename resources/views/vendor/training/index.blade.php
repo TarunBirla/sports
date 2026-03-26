@@ -64,6 +64,7 @@
 
                 {{-- Rows --}}
                 @foreach($products as $p)
+                
                     <div style="display:grid;grid-template-columns:1fr 100px 100px 140px;padding:1rem 1.25rem;border-bottom:1px solid #e8f1fd;align-items:center"
                         onmouseover="this.style.background='#f8fbff'" onmouseout="this.style.background='transparent'">
                         {{-- Title --}}

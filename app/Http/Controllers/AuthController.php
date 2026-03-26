@@ -32,6 +32,8 @@ class AuthController extends Controller
             if($vendor){
                 Session::put('vendor_id', $vendor->id);
                 Session::put('vendor_type', $vendor->type);
+                  $user = User::where('email', $req->email)->first();
+                 Auth::login($user);
                 return redirect('/vendor/dashboard');
             }
 
@@ -53,5 +55,15 @@ class AuthController extends Controller
     public function profile()
     {
         return view('auth.profile');
+    }
+    
+    public function dashboard($categoryId)
+    {
+        $stats = StatValue::with('field')
+            ->where('user_id', auth()->id())
+            ->where('category_id', $categoryId)
+            ->get();
+
+        return view('user.dashboard', compact('stats'));
     }
 }

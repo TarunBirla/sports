@@ -19,6 +19,7 @@
         <div style="display:flex;flex-direction:column;gap:12px">
 
             @foreach($orders as $o)
+           
 
             @php
                 $product = \App\Models\Product::find($o->item_id);
