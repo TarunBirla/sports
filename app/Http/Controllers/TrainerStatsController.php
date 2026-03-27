@@ -6,7 +6,7 @@ use App\Models\StatValue;
 use App\Models\StatField;
 use App\Models\StatCategory;
 use App\Models\AttendanceRecord;
-
+use App\Models\Course;
 use App\Models\User;
 use App\Models\StudentFitness;
 
@@ -25,7 +25,7 @@ class TrainerStatsController extends Controller
      * @param int $userId
      * @return \Illuminate\View\View
      */
-    public function create($categoryId, $userId = null)
+    public function create($categoryId, $userId = null, $courseId = null)
     {
         try {
 
@@ -60,9 +60,8 @@ class TrainerStatsController extends Controller
 
             // Get the user (athlete) if provided
             $user = $userId ? User::findOrFail($userId) : null;
-
-            // Verify trainer access
-
+            $course = $courseId ? Course::findOrFail($courseId) : null;
+            
 
             $trainerId = session('vendor_id') ?? $user->trainer_id;
 
@@ -71,10 +70,12 @@ class TrainerStatsController extends Controller
                 'trainer_id' => $trainerId,
                 'category_id' => $categoryId,
                 'user_id' => $userId,
-                'field_count' => $fields->count()
+                'field_count' => $fields->count(),
+                'user' => $user,
+                'course' => $course
             ]);
 
-            return view('trainer.stats.create', compact('category', 'fields', 'categoryId', 'user'));
+            return view('trainer.stats.create', compact('category', 'fields', 'categoryId', 'user', 'course'));
 
         } catch (\Exception $e) {
             Log::error('Error loading stats form', [
@@ -95,14 +96,6 @@ class TrainerStatsController extends Controller
 
             // Verify user exists
             $user = User::findOrFail($userId);
-            // Log::info('Trainer Check', [
-            //     'user_trainer_id' => $user->trainer_id ?? $trainerId,
-            //     'session_trainer_id' => $trainerId
-            // ]);
-            // // Verify trainer has access to this user
-            // if ($user->trainer_id != $trainerId) {
-            //     return back()->with('error', 'Unauthorized access to this athlete.');
-            // }
 
             // Validate input
             $validated = $this->validateStatsInput($request, $categoryId);
@@ -255,23 +248,28 @@ class TrainerStatsController extends Controller
         }
 
         // Validate all inputs
+        $attributes = [];
+
+        foreach ($fields as $field) {
+            $attributes["fields.{$field->id}"] = $field->name;
+        }
+
+        foreach (['speed','stamina','strength','agility','flexibility','endurance'] as $f) {
+            $attributes["fitness.$f"] = ucfirst($f);
+        }
+
+        for ($i = 1; $i <= 8; $i++) {
+            $attributes["attendance.W{$i}"] = "Week {$i}";
+        }
+
         return $request->validate($rules, [
             '*.numeric' => 'The :attribute must be a valid number.',
             '*.integer' => 'The :attribute must be a whole number.',
-            '*.min' => 'The :attribute cannot be less than :min.',
-            '*.max' => 'The :attribute cannot exceed :max.',
-        ]);
+            '*.min' => 'The :attribute must be at least :min.',
+            '*.max' => 'The :attribute must not be greater than :max.',
+        ], $attributes);
     }
 
-    /**
-     * Save fitness tracking stats to database
-     * 
-     * @param array $fitnessData
-     * @param int $userId
-     * @param int $trainerId
-     * @param int $categoryId
-     * @return int Count of saved records
-     */
     private function saveFitnessStats($fitnessData, $userId, $trainerId, $categoryId, $courseId): int
     {
         try {
@@ -306,14 +304,6 @@ class TrainerStatsController extends Controller
         }
     }
 
-    /**
-     * Save attendance records to database
-     * 
-     * @param array $attendanceData
-     * @param int $userId
-     * @param int $trainerId
-     * @return int Count of saved records
-     */
     private function saveAttendanceRecords($attendanceData, $userId, $trainerId, $courseId = 1): int
     {
         $count = 0;

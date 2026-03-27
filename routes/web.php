@@ -42,7 +42,7 @@ use App\Http\Controllers\TrainerStatsController;
     });
 
     // Show stats entry form
-    Route::get('/stats/create/{categoryId}/{userId?}', 
+    Route::get('/stats/create/{categoryId}/{userId?}/{courseId?}', 
         [TrainerStatsController::class, 'create'])
         ->name('trainer.stats.create');
 

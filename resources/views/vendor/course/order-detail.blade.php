@@ -515,8 +515,7 @@
                 style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:8px;background:#dcfce7;color:#16a34a;font-size:0.8rem;font-weight:600;border:1px solid #86efac;text-decoration:none">
                 📊 Add Stats
             </a> -->
-           
-            <a href="/stats/create/{{ $orderItem->course->category_id }}/{{$orderItem->order->user->id}}"
+            <a href="/stats/create/{{ $orderItem->course->category_id }}/{{$orderItem->order->user->id}}/{{$orderItem->course->id}}"
                 style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:8px;background:#dcfce7;color:#16a34a;font-size:0.8rem;font-weight:600;border:1px solid #86efac;text-decoration:none">
                 📊 Add Stats
             </a>

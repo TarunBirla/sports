@@ -255,12 +255,7 @@
         <!-- Alert Messages -->
         @if ($errors->any())
             <div class="alert alert-danger">
-                <strong>⚠️ Please fix the following errors:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+                ⚠️ Please fix highlighted fields
             </div>
         @endif
 
@@ -268,11 +263,14 @@
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
+
         @endif
+
         <!-- Main Form -->
         <form method="POST" action="{{ route('trainer.stats.store') }}" novalidate>
             @csrf
             
+
 
             <input type="hidden" name="category_id" value="{{ $categoryId }}">
             <input type="hidden" name="user_id" value="{{ $user->id ?? 1 }}">
@@ -309,30 +307,29 @@
                         </h2>
 
                         <div class="fields-grid">
-
                             @foreach($fields as $field)
                                 <div class="form-field">
+
                                     <label class="field-label">
                                         {{ $field->name }}
                                     </label>
 
                                     <input 
-                                        type="{{ $field->type == 'numeric' ? 'number' : 'text' }}"
+                                        type="number"
                                         name="fields[{{ $field->id }}]"
-                                        class="form-input"
-                                        placeholder="{{ $field->unit ?? '' }}"
-                                        
-                                        @if($field->min_value !== null) min="{{ $field->min_value }}" @endif
-                                        @if($field->max_value !== null) max="{{ $field->max_value }}" @endif
-                                        @if($field->decimal_places) step="0.{{ str_repeat('0', $field->decimal_places-1) }}1" @endif
+                                        value="{{ old("fields.{$field->id}") }}"
+                                        class="form-input @error("fields.{$field->id}") is-invalid @enderror"
                                     >
 
-                                    <div class="field-hint">
-                                        {{ $field->description ?? '' }}
-                                    </div>
+                                    {{-- ✅ ERROR SHOW HERE --}}
+                                    @error("fields.{$field->id}")
+                                        <div class="form-error">
+                                            ⚠️ {{ $message }}
+                                        </div>
+                                    @enderror
+
                                 </div>
                             @endforeach
-
                         </div>
                         <!-- </div>
                         <div class="fields-grid">

@@ -141,6 +141,16 @@ class OrderController extends Controller
             // ->where('course_id', $courseId)
             ->orderBy('week')
             ->get();
+
+        // Prepare graph data
+        $chartLabels = [];
+        $chartData = [];
+
+        foreach ($fields as $field) {
+            $chartLabels[] = $field->name;
+            $chartData[] = isset($values[$field->id]) ? (float)$values[$field->id] : 0;
+        }
+
         $attendanceLabels = [];
         $attendanceData = [];
 
@@ -154,6 +164,8 @@ class OrderController extends Controller
             'category',
             'fields',
             'values',
+            'chartLabels',
+            'chartData',
             'fitnessData',
             'attendance',
             'fitness',
