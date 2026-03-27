@@ -326,6 +326,11 @@
         Profile
       </a>
 
+      <a href="/vendor/chat" class="nav-link {{ request()->is('vendor/chat*') ? 'active' : '' }}">
+        <div class="nav-icon" style="background:#e0f2fe">👤</div>
+        Chat
+      </a>
+
 
       <a href="/vendor/logout" class="nav-link danger">
         <div class="nav-icon" style="background:var(--red-light)">🚪</div>
@@ -355,6 +360,8 @@
     <!-- Page content -->
     <div class="content">
       @yield('content')
+      @stack('scripts')
+
     </div>
 
     <!-- Footer -->

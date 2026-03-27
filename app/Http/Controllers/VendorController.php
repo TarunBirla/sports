@@ -18,6 +18,16 @@ use App\Models\StudentAttendance;
 
 class VendorController extends Controller
 {
+
+    public function chat()
+    {
+        $trainerId = session('vendor_id') ?? auth()->id();
+
+        $allusers = User::where('trainer_id', $trainerId)->get();
+
+        return view('vendor.chat', compact('allusers'));
+    }
+
     // ✅ Register Form
     public function registerForm()
     {

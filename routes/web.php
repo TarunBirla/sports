@@ -42,9 +42,30 @@ Route::get('/shop', function () {
     return view('dashboard.shop');
 })->name('shop');
 
+
+
 Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->name('dashboard');
+
+
+use App\Http\Controllers\ChatController;
+
+
+
+    // USER CHAT
+    Route::get('/user/chat', [ChatController::class, 'userChat'])->name('user.chat');
+
+    // VENDOR CHAT
+    Route::get('/vendor/chat', [ChatController::class, 'vendorChat'])->name('vendor.chat');
+
+    // COMMON
+    Route::get('/chat/messages/{chat}', [ChatController::class, 'getMessages']);
+    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    Route::post('/chat/create', [ChatController::class, 'createChat']);
+
+
+
     Route::get('/',[HomeController::class,'index']);
     Route::get('/platform/{id}', [HomeController::class, 'index']);
 
@@ -164,6 +185,9 @@ Route::get('/place-order',[OrderController::class,'placeOrder']);
 Route::get('/my-orders',[OrderController::class,'myOrders']);
 
 Route::get('/vendor/category', [CategoryController::class, 'index']);
+
+Route::get('/vendor/chat', [VendorController::class, 'chat'])->name('chat');
+
 Route::get('/vendor/category/create', [CategoryController::class, 'create']);
 Route::post('/vendor/category/store', [CategoryController::class, 'store']);
 Route::get('/vendor/category/edit/{id}', [CategoryController::class, 'edit']);

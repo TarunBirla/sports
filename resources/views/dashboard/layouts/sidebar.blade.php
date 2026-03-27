@@ -103,6 +103,16 @@
       <i class="fa-solid fa-bag-shopping"></i> Orders
     </a>
 
+    <a
+      href="{{ route('user.chat') }}"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg transition
+      {{ request()->routeIs('user.chat') 
+        ? 'bg-green-700/40 text-green-300' 
+        : 'hover:bg-white/10' }}"
+    >
+      <i class="fa-solid fa-bag-shopping"></i> Chat
+    </a>
+
   </nav>
 
 
