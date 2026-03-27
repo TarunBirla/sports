@@ -1,7 +1,5 @@
 @extends('vendor.layout')
-
 @section('page_title', 'Order Detail')
-
 @section('content')
 
 <style>
@@ -513,11 +511,11 @@
             <a href="/vendor/course-orders/10">Orders</a>
             <span>/</span>
             <span>#{{ $orderItem->order_id }}</span>
-            <a href="{{ url('/trainer/stats/'.$orderItem->course->category_id) }}"
+            <!-- <a href="{{ url('/trainer/stats/'.$orderItem->course->category_id) }}"
                 style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:8px;background:#dcfce7;color:#16a34a;font-size:0.8rem;font-weight:600;border:1px solid #86efac;text-decoration:none">
                 📊 Add Stats
-            </a>
-            <a href="/stats/create/1/{{auth()->user()->id}}"
+            </a> -->
+            <a href="/stats/create/{{ $orderItem->course->category_id }}/{{$orderItem->order->user->id}}/{{$orderItem->course->id}}"
                 style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:8px;background:#dcfce7;color:#16a34a;font-size:0.8rem;font-weight:600;border:1px solid #86efac;text-decoration:none">
                 📊 Add Stats
             </a>
@@ -546,6 +544,7 @@
                 </div>
             </div>
         </div>
+        
 
         <!-- Card Content -->
         <div class="card-content">

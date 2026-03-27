@@ -9,7 +9,6 @@
       <a href="/profile" class="btn btn-ghost">Profile</a>
       <a href="/cart" class="btn btn-ghost cart-btn">
         🛒 Cart
-        <span class="cart-badge">3</span>
       </a>
       <a href="/my-orders" class="btn btn-ghost">Orders</a>
       <a href="/logout" class="btn btn-danger">Logout</a>

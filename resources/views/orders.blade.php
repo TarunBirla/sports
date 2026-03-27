@@ -80,11 +80,27 @@
                     @endif
                 </div>
 
-                <a href="/orders/{{ $o->id }}"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:9px;background:#e3eefd;color:#1a6fd4;font-size:0.85rem;font-weight:600;text-decoration:none;border:1px solid #93c5fd;transition:background 0.18s;flex-shrink:0"
-                   onmouseover="this.style.background='#c8dff9'"
-                   onmouseout="this.style.background='#e3eefd'"
-                >View Details →</a>
+               @php
+    $hasCourse = $o->items->where('type',  'course')->count();
+@endphp
+
+@if($hasCourse > 0)
+
+    {{-- START BUTTON --}}
+    <a href="/course-start/{{ $o->id }}"
+       style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:9px;background:#16a34a;color:#fff;font-size:0.85rem;font-weight:600;text-decoration:none;">
+        State
+    </a>
+
+@else
+
+    {{-- NORMAL ORDER --}}
+    <a href="/orders/{{ $o->id }}"
+       style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:9px;background:#e3eefd;color:#1a6fd4;font-size:0.85rem;font-weight:600;text-decoration:none;">
+       View Details →
+    </a>
+
+@endif
 
             </div>
         </div>

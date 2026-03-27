@@ -6,6 +6,7 @@
 <title>Sports Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
