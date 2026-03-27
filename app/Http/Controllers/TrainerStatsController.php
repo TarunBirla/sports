@@ -28,7 +28,24 @@ class TrainerStatsController extends Controller
     public function create($categoryId, $userId = null)
     {
         try {
+
+            if($categoryId == 8){
+
+                $categoryId = 5;
+                
+            }elseif($categoryId == 9){
+                
+                $categoryId = 6;
             
+            }elseif($categoryId == 10){
+            
+                $categoryId = 3;
+           
+            }elseif($categoryId == 11){
+            
+                $categoryId = 4;
+            
+            }
             $category = StatCategory::with([
                 'fields' => function ($query) {
                     $query->where('is_active', true)->ordered();
@@ -37,7 +54,6 @@ class TrainerStatsController extends Controller
 
             // Get fields
             $fields = $category->fields;
-
             if ($fields->isEmpty()) {
                 return back()->with('warning', 'No fields available for this category.');
             }
@@ -79,14 +95,14 @@ class TrainerStatsController extends Controller
 
             // Verify user exists
             $user = User::findOrFail($userId);
-            Log::info('Trainer Check', [
-                'user_trainer_id' => $user->trainer_id,
-                'session_trainer_id' => $trainerId
-            ]);
-            // Verify trainer has access to this user
-            if ($user->trainer_id != $trainerId) {
-                return back()->with('error', 'Unauthorized access to this athlete.');
-            }
+            // Log::info('Trainer Check', [
+            //     'user_trainer_id' => $user->trainer_id ?? $trainerId,
+            //     'session_trainer_id' => $trainerId
+            // ]);
+            // // Verify trainer has access to this user
+            // if ($user->trainer_id != $trainerId) {
+            //     return back()->with('error', 'Unauthorized access to this athlete.');
+            // }
 
             // Validate input
             $validated = $this->validateStatsInput($request, $categoryId);

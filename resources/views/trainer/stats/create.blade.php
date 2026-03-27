@@ -269,14 +269,14 @@
                 {{ session('success') }}
             </div>
         @endif
-
         <!-- Main Form -->
         <form method="POST" action="{{ route('trainer.stats.store') }}" novalidate>
             @csrf
+            
 
             <input type="hidden" name="category_id" value="{{ $categoryId }}">
             <input type="hidden" name="user_id" value="{{ $user->id ?? 1 }}">
-            <input type="hidden" name="course_id" value="1">
+            <input type="hidden" name="course_id" value="{{ $course->id ?? 1 }}">
 
             <div class="form-card">
 
