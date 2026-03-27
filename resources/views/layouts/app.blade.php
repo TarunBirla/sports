@@ -48,7 +48,6 @@
         position:sticky;top:0;z-index:100;
         background:rgba(255,255,255,0.92);
         backdrop-filter:blur(12px);
-        border-bottom:1px solid var(--border);
         box-shadow:0 1px 12px rgba(26,111,212,0.07);
         }
         .header-inner{
