@@ -4,31 +4,10 @@
 
 <div class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-12 gap-6">
 
-    <!-- SIDEBAR -->
-    <div class="col-span-3">
-        <div class="bg-white rounded-xl shadow p-4">
-
-            <h2 class="font-semibold mb-3">Categories</h2>
-
-            <a href="/all-courses"
-               class="block px-3 py-2 rounded-lg mb-1
-               {{ request('category') ? 'text-gray-600' : 'bg-blue-600 text-white' }}">
-                All
-            </a>
-
-            @foreach($categories as $cat)
-                <a href="/all-courses?category={{ $cat->id }}"
-                   class="block px-3 py-2 rounded-lg mb-1
-                   {{ request('category') == $cat->id ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                    {{ $cat->name }}
-                </a>
-            @endforeach
-
-        </div>
-    </div>
+    
 
     <!-- COURSES -->
-    <div class="col-span-9">
+    <div class="col-span-12">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
@@ -56,7 +35,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <div class="price price-blue">£{{ $c->price }}</div>
+                        <div class="price price-blue">£{{ $c->price }}<span class="text-[12px]">/Per Month</span></div>
 
                         @if(auth()->check())
                             <a href="{{ url('/cart/add/course/' . $c->id) }}" class="add-btn add-blue">
