@@ -138,7 +138,7 @@ class OrderController extends Controller
 
         // ATTENDANCE
         $attendance = AttendanceRecord::where('user_id', auth()->id())
-            // ->where('course_id', $courseId)
+            ->where('course_id', $course->id)
             ->orderBy('week')
             ->get();
 

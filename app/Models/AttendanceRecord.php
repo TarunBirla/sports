@@ -19,6 +19,7 @@ class AttendanceRecord extends Model
         'week_end_date',
         'notes',
         'recorded_at',
+        'course_id',
     ];
  
     protected $casts = [
