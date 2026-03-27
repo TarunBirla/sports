@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <div class="price price-blue">£{{ $c->price }}</div>
+                        <div class="price price-blue">£{{ $c->price }}<span class="text-[12px]">/ Per Month</span></div>
 
                         @if(auth()->check())
                             <a href="{{ url('/cart/add/course/' . $c->id) }}" class="add-btn add-blue">
@@ -150,7 +150,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <div class="price price-green">£{{ $p->price }}</div>
+                        <div class="price price-green">£{{ $p->price }}<span class="text-[12px]">/ Per Month</span></div>
 
                         @if(auth()->check())
                             <a href="{{ url('/cart/add/training/' . $p->id) }}" class="add-btn add-green">
