@@ -318,7 +318,7 @@ class TrainerStatsController extends Controller
                 AttendanceRecord::create([
                     'user_id' => $userId,
                     'week' => $week,
-                    'trainer_id' => $trainerId,
+                    'trainer_id' => $trainerId ?? session('vendor_id'),
                     'course_id' => $courseId,
                     'attendance_count' => $attendanceCount,
                     'total_sessions' => 5,
