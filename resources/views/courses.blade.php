@@ -1,88 +1,92 @@
 @extends('layouts.app')
 
 @section('content')
+<section id="shop" class="bg-gray-100 py-12">
 
-<div class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-12 gap-6">
+<div class="max-w-7xl mx-auto px-6 py-10">
 
-    <!-- SIDEBAR -->
-    <div class="col-span-3">
-        <div class="bg-white rounded-xl shadow p-4">
-
-            <h2 class="font-semibold mb-3">Categories</h2>
-
-            <a href="/all-courses"
-               class="block px-3 py-2 rounded-lg mb-1
-               {{ request('category') ? 'text-gray-600' : 'bg-blue-600 text-white' }}">
-                All
-            </a>
-
-            @foreach($categories as $cat)
-                <a href="/all-courses?category={{ $cat->id }}"
-                   class="block px-3 py-2 rounded-lg mb-1
-                   {{ request('category') == $cat->id ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                    {{ $cat->name }}
-                </a>
-            @endforeach
-
-        </div>
+    <!-- TITLE -->
+    <div class="text-center mb-12">
+        
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            All <span class="text-yellow-500">TRAININGS</span>
+        </h2>
     </div>
 
-    <!-- COURSES -->
-    <div class="col-span-9">
+    <!-- COURSES GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach($courses as $c)
+        <div class="bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-lg transition duration-300">
 
-            @foreach($courses as $c)
-            <div class="card">
-                    <div class="card-media" style="background:linear-gradient(135deg,#0a0f1f,#101828)">
+            <!-- IMAGE -->
+            <div class="relative">
+                <img src="{{ $c->image ? asset('courses/'.$c->image) : asset('assets/default.jpg') }}"
+                     class="w-full h-52 object-cover">
 
-                        @if($c->image)
-                            <img src="{{ asset('courses/' . $c->image) }}" class="w-full h-full object-cover rounded-t-lg">
-                        @else
-                            <div class="flex items-center justify-center h-full text-white">
-                                📚
-                            </div>
-                        @endif
+                <!-- CATEGORY BADGE -->
+                <span class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
+                    {{ $c->category->name ?? 'Training' }}
+                </span>
+            </div>
 
-                        <span class="card-media-tag tag-course"> {{ $c->category->name ?? 'No Category' }}</span>
-                    </div>
+            <!-- CONTENT -->
+            <div class="p-5">
 
-                    <div class="card-body">
-                        <div class="card-title">{{ $c->title }}</div>
+                <!-- TITLE -->
+                <h3 class="font-semibold text-gray-900 text-lg">
+                    {{ $c->title }}
+                </h3>
 
-                        <div class="card-desc">
-                            {{ Str::limit($c->description, 100) }}
-                        </div>
-                    </div>
+                <!-- DESCRIPTION -->
+                <p class="text-sm text-gray-500 mt-2">
+                    {{ Str::limit($c->description, 70) }}
+                </p>
 
-                    <div class="card-footer">
-                        <div class="price price-blue">£{{ $c->price }}</div>
+                <!-- PRICE + ACTION -->
+                <div class="flex items-center justify-between mt-5">
 
-                        @if(auth()->check())
-                            <a href="{{ url('/cart/add/course/' . $c->id) }}" class="add-btn add-blue">
-                                + Add cart
-                            </a>
-                        @else
-                            <a href="/login" class="add-btn add-blue">
-                                + Add cart
-                            </a>
-                        @endif
-                        <a href="{{ url('course/' . $c->id) }}" class="add-btn add-blue">
-                            + View
+                    <span class="text-yellow-500 font-bold text-lg">
+                        £{{ $c->price }}
+                    </span>
+
+                    <div class="flex gap-2">
+
+                        <!-- VIEW -->
+                        <a href="{{ url('course/'.$c->id) }}"
+                           class="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">
+                            View
                         </a>
+
+                        <!-- CART -->
+                        @if(auth()->check())
+                            <a href="{{ url('/cart/add/course/'.$c->id) }}"
+                               class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
+                                + Add to Cart
+                            </a>
+                        @else
+                            <a href="/login"
+                               class="px-3 py-1 bg-blue-600 text-white rounded text-sm">
+                                + Add to Cart
+                            </a>
+                        @endif
+
                     </div>
+
                 </div>
-            @endforeach
 
+            </div>
         </div>
+        @endforeach
 
-        <!-- PAGINATION -->
-        <div class="mt-6">
-            {{ $courses->links() }}
-        </div>
+    </div>
 
+    <!-- PAGINATION -->
+    <div class="mt-10 flex justify-center">
+        {{ $courses->links() }}
     </div>
 
 </div>
+</section>
 
 @endsection

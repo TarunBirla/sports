@@ -48,7 +48,6 @@
         position:sticky;top:0;z-index:100;
         background:rgba(255,255,255,0.92);
         backdrop-filter:blur(12px);
-        border-bottom:1px solid var(--border);
         box-shadow:0 1px 12px rgba(26,111,212,0.07);
         }
         .header-inner{
@@ -63,19 +62,7 @@
         }
         .logo span{color:var(--accent)}
         nav{display:flex;align-items:center;gap:6px}
-        nav a{
-        padding:6px 14px;border-radius:6px;
-        font-size:0.875rem;font-weight:500;
-        color:var(--text-secondary);
-        text-decoration:none;transition:all 0.18s;
-        }
-        nav a:hover{color:var(--accent);background:var(--accent-light)}
-        .btn{
-        display:inline-flex;align-items:center;gap:6px;
-        padding:7px 18px;border-radius:8px;
-        font-size:0.875rem;font-weight:600;
-        text-decoration:none;transition:all 0.18s;cursor:pointer;border:none;
-        }
+       
         .btn-accent{background:var(--accent);color:#fff}
         .btn-accent:hover{background:var(--accent-hover)}
         .btn-ghost{

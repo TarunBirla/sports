@@ -131,6 +131,26 @@ Route::get('/profile',[AuthController::class,'profile']);
 // Route::post('/register',[AuthController::class,'register']);
 // Route::post('/login',[AuthController::class,'login']);
 
+Route::get('/vendor/performance', function () {
+    return view('vendor.perfomance');
+})->name('performance');
+
+Route::get('/vendor/userlist', function () {
+    return view('vendor.userlist');
+})->name('userlist');
+
+Route::get('/vendor/bordcast', function () {
+    return view('vendor.bordcast');
+})->name('bordcast');
+
+Route::get('/vendor/coach', function () {
+    return view('vendor.coach');
+})->name('coach');
+
+Route::get('/vendor/transactiondetails', function () {
+    return view('vendor.transactiondetails');
+})->name('transactiondetails');
+
 Route::get('/vendor/profile', [VendorController::class, 'profile']);
 Route::get('/vendor/register',[VendorController::class,'registerForm']);
 Route::post('/vendor/register',[VendorController::class,'register']);

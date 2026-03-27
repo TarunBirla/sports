@@ -56,19 +56,27 @@
     }
 
     /* ── Sidebar ── */
+    
     .sidebar {
-      width: var(--sidebar-w);
-      min-height: 100vh;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      z-index: 50;
-    }
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;   /* ✅ SCROLL ENABLE */
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
 
     .sidebar-brand {
       padding: 1.5rem 1.25rem 1.25rem;
@@ -284,7 +292,7 @@
   <aside class="sidebar">
 
     <div class="sidebar-brand">
-      <div class="sidebar-logo">🏪 <span>Adnan Academy</span></div>
+      <div class="sidebar-logo">🏪 <span>Adnan Cricket Academy</span></div>
       <div class="sidebar-sub">Vendor Panel</div>
     </div>
 
@@ -321,6 +329,27 @@
           Add Stats
         </a>
 
+        <a href="/vendor/userlist" class="nav-link {{ request()->is('vendor/userlist*') ? 'active' : '' }}">
+        <div class="nav-icon" style="background:#e0f2fe">👤</div>
+        All User
+      </a>
+      <a href="/vendor/transactiondetails" class="nav-link {{ request()->is('vendor/transactiondetails*') ? 'active' : '' }}">
+        <div class="nav-icon" style="background:#e0f2fe">📦</div>
+        Transaction Details
+      </a>
+      <a href="/vendor/performance" class="nav-link {{ request()->is('vendor/performance*') ? 'active' : '' }}">
+        <div class="nav-icon" style="background:#e0f2fe"> 📊</div>
+        Performance
+      </a>
+      <a href="/vendor/coach" class="nav-link {{ request()->is('vendor/coach*') ? 'active' : '' }}">
+        <div class="nav-icon" style="background:#e0f2fe">👤</div>
+        Coach
+      </a>
+      <a href="/vendor/bordcast" class="nav-link {{ request()->is('vendor/bordcast*') ? 'active' : '' }}">
+        <div class="nav-icon" style="background:#e0f2fe">📊</div>
+        Broadcast
+      </a>
+
       <a href="/vendor/profile" class="nav-link {{ request()->is('vendor/profile*') ? 'active' : '' }}">
         <div class="nav-icon" style="background:#e0f2fe">👤</div>
         Profile
@@ -330,6 +359,8 @@
         <div class="nav-icon" style="background:#e0f2fe">👤</div>
         Chat
       </a>
+
+
 
 
       <a href="/vendor/logout" class="nav-link danger">
@@ -371,7 +402,7 @@
     </div>
 
   </div>
-
+<script src="https://unpkg.com/lucide@latest"></script>
 </body>
 
 </html>
