@@ -54,6 +54,7 @@
                     @else
                         <div style="width:70px;height:70px;background:#eee;border-radius:10px"></div>
                     @endif
+                    
 
                     <!-- DETAILS -->
                     <div>

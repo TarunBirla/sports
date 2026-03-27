@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\OrderItem;
 use App\Models\Course;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StatField;

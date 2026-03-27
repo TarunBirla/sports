@@ -169,7 +169,19 @@
 
                                             <!-- Player Info -->
 
-                                            <div class="bg-white p-6 rounded-xl shadow mb-10">
+                                          
+
+                                        </div>
+
+
+
+                                        <!-- RIGHT COLUMN -->
+
+                                        <div class="md:col-span-2 space-y-8">
+
+                                            <!-- Career Stats -->
+
+                                              <div class="bg-white p-6 rounded-xl shadow mb-10">
 
                                                 <h2 class="text-xl font-semibold">
                                                     {{ auth()->user()->name }}
@@ -206,127 +218,10 @@
                                                 </div>
 
 
-                                                <button onclick="openModal()"
+                                                <!-- <button onclick="openModal()"
                                                     class="mt-6 w-full border rounded-lg py-2 hover:bg-gray-100 transition">
                                                     Edit Profile
-                                                </button>
-
-                                            </div>
-
-                                        </div>
-
-
-
-                                        <!-- RIGHT COLUMN -->
-
-                                        <div class="md:col-span-2 space-y-8">
-
-                                            <!-- Career Stats -->
-
-                                            <div>
-
-                                                <h2 class="text-xl text-white font-semibold mb-4">
-
-                                                    Career
-                                                    <span class="text-yellow-500">
-                                                        Statistics
-                                                    </span>
-
-                                                </h2>
-
-
-                                                <div class="grid md:grid-cols-3 gap-6">
-
-                                                    <div class="bg-white p-6 rounded-xl shadow text-center">
-
-                                                        🏏
-
-                                                        <h3 class="text-2xl font-bold">
-                                                            {{ auth()->user()->total_matches ?? 0 }}
-                                                        </h3>
-
-                                                        <p class="text-gray-500 text-sm">
-                                                            Matches
-                                                        </p>
-
-                                                    </div>
-
-
-                                                    <div class="bg-white p-6 rounded-xl shadow text-center">
-
-                                                        🏃
-
-                                                        <h3 class="text-2xl font-bold">
-                                                            {{ auth()->user()->runs ?? 0 }}
-                                                        </h3>
-
-                                                        <p class="text-gray-500 text-sm">
-                                                            Runs
-                                                        </p>
-
-                                                    </div>
-
-
-                                                    <div class="bg-white p-6 rounded-xl shadow text-center">
-
-                                                        🎯
-
-                                                        <h3 class="text-2xl font-bold">
-                                                            {{ auth()->user()->wickets ?? 0 }}
-                                                        </h3>
-
-                                                        <p class="text-gray-500 text-sm">
-                                                            Wickets
-                                                        </p>
-
-                                                    </div>
-
-
-                                                    <div class="bg-white p-6 rounded-xl shadow text-center">
-
-                                                        ⚡
-
-                                                        <h3 class="text-2xl font-bold">
-                                                            {{ auth()->user()->strike_rate ?? 0 }}
-                                                        </h3>
-
-                                                        <p class="text-gray-500 text-sm">
-                                                            Strike Rate
-                                                        </p>
-
-                                                    </div>
-
-
-                                                    <div class="bg-white p-6 rounded-xl shadow text-center">
-
-                                                        📊
-
-                                                        <h3 class="text-2xl font-bold">
-                                                            {{ auth()->user()->batting_average ?? 0 }}
-                                                        </h3>
-
-                                                        <p class="text-gray-500 text-sm">
-                                                            Batting Avg
-                                                        </p>
-
-                                                    </div>
-
-
-                                                    <div class="bg-white p-6 rounded-xl shadow text-center">
-
-                                                        ⭐
-
-                                                        <h3 class="text-2xl font-bold">
-                                                            {{ auth()->user()->high_score ?? 0 }}
-                                                        </h3>
-
-                                                        <p class="text-gray-500 text-sm">
-                                                            Highest
-                                                        </p>
-
-                                                    </div>
-
-                                                </div>
+                                                </button> -->
 
                                             </div>
 

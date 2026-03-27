@@ -91,6 +91,10 @@
     const attendance = @json($attendance);
 
     // 🔥 PERFORMANCE GRAPH (DYNAMIC)
+    const colors = [];
+for(let i = 0; i < data.length; i++){
+    colors.push(i % 2 === 0 ? "rgba(37, 99, 235, 0.6)" : "rgba(234, 179, 8, 0.6)");
+}
     new Chart(document.getElementById("dynamicChart"), {
         type: "bar",
         data: {
@@ -98,7 +102,7 @@
             datasets: [{
                 label: "Performance",
                 data: data,
-                backgroundColor: "rgba(37, 99, 235, 0.6)"
+                backgroundColor: colors
             }]
         },
         options: {
