@@ -304,37 +304,50 @@ class TrainerStatsController extends Controller
         }
     }
 
-    private function saveAttendanceRecords($attendanceData, $userId, $trainerId, $courseId = 1): int
+   private function saveAttendanceRecords($attendanceData, $userId, $trainerId, $courseId = 1): int
     {
+        \Log::info('Saving attendance records', ['course_id' => $courseId]);
+
         $count = 0;
 
+        // ✅ Fix trainer_id issue
+        if (!\App\Models\User::where('id', $trainerId)->exists()) {
+            \Log::warning('Invalid trainer_id', ['trainer_id' => $trainerId]);
+            $trainerId = null;
+        }
+
         foreach ($attendanceData as $week => $attendanceCount) {
+
             if ($attendanceCount === null || $attendanceCount === '') {
                 continue;
             }
 
             try {
-                // Create or update attendance record
-                AttendanceRecord::create([
-                    'user_id' => $userId,
-                    'week' => $week,
-                    'trainer_id' => $trainerId ?? session('vendor_id'),
-                    'course_id' => $courseId,
-                    'attendance_count' => $attendanceCount,
-                    'total_sessions' => 5,
-                    'attendance_percentage' => ($attendanceCount / 5) * 100,
-                    'recorded_at' => now(),
-                ]);
+
+                AttendanceRecord::updateOrCreate(
+                    [
+                        'user_id' => $userId,
+                        'week' => $week,
+                        'trainer_id' => $trainerId,
+                    ],
+                    [
+                        'course_id' => $courseId,
+                        'attendance_count' => $attendanceCount,
+                        'total_sessions' => 5,
+                        'attendance_percentage' => ($attendanceCount / 5) * 100,
+                        'recorded_at' => now(),
+                    ]
+                );
 
                 $count++;
 
-                Log::info("Attendance saved for {$week}", [
+                \Log::info("Attendance saved for {$week}", [
                     'user_id' => $userId,
                     'attendance_count' => $attendanceCount
                 ]);
 
             } catch (\Exception $e) {
-                Log::warning("Failed to save attendance for {$week}", [
+                \Log::warning("Failed to save attendance for {$week}", [
                     'error' => $e->getMessage()
                 ]);
             }
