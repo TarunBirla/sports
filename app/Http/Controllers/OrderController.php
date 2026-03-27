@@ -141,7 +141,6 @@ class OrderController extends Controller
             // ->where('course_id', $courseId)
             ->orderBy('week')
             ->get();
-
         $attendanceLabels = [];
         $attendanceData = [];
 
