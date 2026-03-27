@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Mail;
     // COURSE DETAIL
     Route::get('/course/{id}', [HomeController::class, 'courseDetail']);
     Route::get('/orders/{id}', [OrderController::class, 'orderDetail']);
+    Route::get('/course-start/{orderId}', [OrderController::class, 'startCourse']);
+    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
 
     // USER AUTH
     Route::get('/login',function(){
@@ -43,7 +45,7 @@ use Illuminate\Support\Facades\Mail;
     });
 
     // Show stats entry form
-    Route::get('/stats/create/{categoryId}/{userId?}', 
+    Route::get('/stats/create/{categoryId}/{userId?}/{courseId?}', 
         [TrainerStatsController::class, 'create'])
         ->name('trainer.stats.create');
 
@@ -111,7 +113,10 @@ Route::get('/vendor/course-orders/{id}', [VendorController::class, 'courseOrderD
 
     // Trainer
 Route::get('/trainer/stats/{category}', [VendorController::class, 'create']);
-Route::post('/trainer/stats/store', [VendorController::class, 'store'])->name('trainer.stats.store');
+// Route::post('/trainer/stats/store', [VendorController::class, 'store'])->name('trainer.stats.store');
+Route::post('/trainer/stats/store', 
+    [VendorController::class, 'store'])
+    ->name('vendor.stats.store'); // ✅ change name
 
 
 // User

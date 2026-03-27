@@ -7,6 +7,8 @@ use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\OrderItem;
 use App\Models\Course;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StatField;
@@ -151,11 +153,12 @@ class VendorController extends Controller
         $courseIds = Course::where('vendor_id', $vendorId)->pluck('id');
 
         // sirf us vendor ke course orders
-        $orders = OrderItem::with(['order.user', 'course'])
-            ->where('type', 'course')
-            ->whereIn('item_id', $courseIds)
-            ->get();
+        $orders = OrderItem::with(['order', 'order.user', 'course'])
+                    ->where('type', 'course')
+                    ->whereIn('item_id', $courseIds)
+                    ->get();
 
+     
         return view('vendor.course.orders', compact('orders'));
     }
 
@@ -163,7 +166,7 @@ class VendorController extends Controller
     {
         $vendorId = Session::get('vendor_id');
 
-        $orderItem = OrderItem::with(['order.user', 'course'])
+        $orderItem = OrderItem::with(['order.user', 'order', 'course'])
             ->where('id', $id)
             ->whereHas('course', function ($q) use ($vendorId) {
                 $q->where('vendor_id', $vendorId);

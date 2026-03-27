@@ -22,6 +22,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+         // NEW PROFILE FIELDS
+        'total_matches',
+        'runs',
+        'wickets',
+        'strike_rate',
+        'batting_average',
+        'high_score',
+        'age',
+        'batting',
+        'trainer_id',
+        'bowling',
+        'academy'
     ];
 
     /**

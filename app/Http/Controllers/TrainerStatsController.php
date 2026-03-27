@@ -6,7 +6,11 @@ use App\Models\StatValue;
 use App\Models\StatField;
 use App\Models\StatCategory;
 use App\Models\AttendanceRecord;
+use App\Models\Course;
 use App\Models\User;
+use App\Models\StudentFitness;
+
+use App\Models\Performance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -21,38 +25,57 @@ class TrainerStatsController extends Controller
      * @param int $userId
      * @return \Illuminate\View\View
      */
-    public function create($categoryId, $userId = null)
+    public function create($categoryId, $userId = null, $courseId = null)
     {
         try {
-            // Get category with all active fields
-            $category = StatCategory::with(['fields' => function ($query) {
-                $query->where('is_active', true)->ordered();
-            }])->findOrFail($categoryId);
+
+            if($categoryId == 8){
+
+                $categoryId = 5;
+                
+            }elseif($categoryId == 9){
+                
+                $categoryId = 6;
+            
+            }elseif($categoryId == 10){
+            
+                $categoryId = 3;
+           
+            }elseif($categoryId == 11){
+            
+                $categoryId = 4;
+            
+            }
+            $category = StatCategory::with([
+                'fields' => function ($query) {
+                    $query->where('is_active', true)->ordered();
+                }
+            ])->findOrFail($categoryId);
 
             // Get fields
             $fields = $category->fields;
-
             if ($fields->isEmpty()) {
                 return back()->with('warning', 'No fields available for this category.');
             }
 
             // Get the user (athlete) if provided
             $user = $userId ? User::findOrFail($userId) : null;
-
-            // Verify trainer access
-      
+            $course = $courseId ? Course::findOrFail($courseId) : null;
+            
 
             $trainerId = session('vendor_id') ?? $user->trainer_id;
-       
+
 
             Log::info('Stats form accessed', [
                 'trainer_id' => $trainerId,
                 'category_id' => $categoryId,
                 'user_id' => $userId,
-                'field_count' => $fields->count()
+                'field_count' => $fields->count(),
+                'user' => $user,
+                'course' => $course
             ]);
 
-            return view('trainer.stats.create', compact('category', 'fields', 'categoryId', 'user'));
+            return view('trainer.stats.create', compact('category', 'fields', 'categoryId', 'user', 'course'));
 
         } catch (\Exception $e) {
             Log::error('Error loading stats form', [
@@ -63,26 +86,16 @@ class TrainerStatsController extends Controller
         }
     }
 
-    /**
-     * Store the stats in database
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
         try {
+            Log::info('REQUEST DATA', $request->all());
             $trainerId = session('vendor_id') ?? auth()->id();
             $userId = $request->user_id;
             $categoryId = $request->category_id;
 
             // Verify user exists
             $user = User::findOrFail($userId);
-
-            // Verify trainer has access to this user
-            if ($user->trainer_id != $trainerId) {
-                return back()->with('error', 'Unauthorized access to this athlete.');
-            }
 
             // Validate input
             $validated = $this->validateStatsInput($request, $categoryId);
@@ -93,25 +106,53 @@ class TrainerStatsController extends Controller
             $failedFields = [];
 
             // Save fitness tracking stats
-            if (!empty($validated['fitness'])) {
+            // if (!empty($validated['fitness'])) {
+            // Save fitness tracking stats
+            if (
+                $request->has('fitness') &&
+                collect($request->fitness)->filter(function ($v) {
+                    return $v !== null && $v !== '';
+                })->count() > 0
+            ) {
                 $saved = $this->saveFitnessStats(
-                    $validated['fitness'],
+                    $request->fitness, // ✅ FIX
                     $userId,
                     $trainerId,
-                    $categoryId
+                    $categoryId,
+                    $request->course_id
                 );
                 $savedCount += $saved;
             }
+            Log::info('Performance Raw Data', $request->performance ?? []);
 
+            // Save Performance Data
+            if ($request->has('performance')) {
+
+                $hasData = collect($request->performance)->filter(function ($v) {
+                    return $v !== null && $v !== '';
+                })->count();
+
+                if ($hasData > 0) {
+                    $this->savePerformance(
+                        $request->performance,
+                        $userId,
+                        $trainerId,
+                        $categoryId,
+                        $request->course_id
+                    );
+                }
+            }
             // Save attendance records
             if (!empty($validated['attendance'])) {
                 $saved = $this->saveAttendanceRecords(
                     $validated['attendance'],
                     $userId,
-                    $trainerId
+                    $trainerId,
+                    $request->course_id
                 );
                 $savedCount += $saved;
             }
+
 
             // Save dynamic field values
             if (!empty($validated['fields'])) {
@@ -207,92 +248,63 @@ class TrainerStatsController extends Controller
         }
 
         // Validate all inputs
+        $attributes = [];
+
+        foreach ($fields as $field) {
+            $attributes["fields.{$field->id}"] = $field->name;
+        }
+
+        foreach (['speed','stamina','strength','agility','flexibility','endurance'] as $f) {
+            $attributes["fitness.$f"] = ucfirst($f);
+        }
+
+        for ($i = 1; $i <= 8; $i++) {
+            $attributes["attendance.W{$i}"] = "Week {$i}";
+        }
+
         return $request->validate($rules, [
             '*.numeric' => 'The :attribute must be a valid number.',
             '*.integer' => 'The :attribute must be a whole number.',
-            '*.min' => 'The :attribute cannot be less than :min.',
-            '*.max' => 'The :attribute cannot exceed :max.',
-        ]);
+            '*.min' => 'The :attribute must be at least :min.',
+            '*.max' => 'The :attribute must not be greater than :max.',
+        ], $attributes);
     }
 
-    /**
-     * Save fitness tracking stats to database
-     * 
-     * @param array $fitnessData
-     * @param int $userId
-     * @param int $trainerId
-     * @param int $categoryId
-     * @return int Count of saved records
-     */
-    private function saveFitnessStats($fitnessData, $userId, $trainerId, $categoryId): int
+    private function saveFitnessStats($fitnessData, $userId, $trainerId, $categoryId, $courseId): int
     {
-        $count = 0;
-        $fitnessFields = ['speed', 'stamina', 'strength', 'agility', 'flexibility', 'endurance'];
+        try {
 
-        // Get or create fitness field mappings
-        foreach ($fitnessFields as $fieldName) {
-            if (empty($fitnessData[$fieldName])) {
-                continue;
+            if (collect($fitnessData)->filter()->count() == 0) {
+                return 0;
             }
 
-            try {
-                // Find or create the field
-                $field = StatField::firstOrCreate(
-                    [
-                        'category_id' => $categoryId,
-                        'name' => ucfirst($fieldName),
-                    ],
-                    [
-                        'slug' => $fieldName,
-                        'type' => 'numeric',
-                        'unit' => 'points',
-                        'min_value' => 0,
-                        'max_value' => 100,
-                        'decimal_places' => 2,
-                        'is_active' => true,
-                    ]
-                );
-
-                // Create or update stat value
-                StatValue::updateOrCreate(
-                    [
-                        'user_id' => $userId,
-                        'field_id' => $field->id,
-                        'category_id' => $categoryId,
-                        'recorded_at' => now()->startOfDay(),
-                    ],
-                    [
-                        'trainer_id' => $trainerId,
-                        'value' => $fitnessData[$fieldName],
-                    ]
-                );
-
-                $count++;
-
-                Log::info("Fitness stat saved: {$fieldName}", [
+            StudentFitness::updateOrCreate(
+                [
                     'user_id' => $userId,
-                    'value' => $fitnessData[$fieldName]
-                ]);
+                    'course_id' => $courseId,
+                ],
+                [
+                    'trainer_id' => $trainerId,
+                    'category_id' => $categoryId,
 
-            } catch (\Exception $e) {
-                Log::warning("Failed to save fitness stat: {$fieldName}", [
-                    'error' => $e->getMessage()
-                ]);
-            }
+                    'speed' => $fitnessData['speed'] ?? null,
+                    'stamina' => $fitnessData['stamina'] ?? null,
+                    'strength' => $fitnessData['strength'] ?? null,
+                    'agility' => $fitnessData['agility'] ?? null,
+                    'flexibility' => $fitnessData['flexibility'] ?? null,
+                    'endurance' => $fitnessData['endurance'] ?? null,
+                ]
+            );
+
+            return 1;
+
+        } catch (\Exception $e) {
+            Log::error('Fitness Save Error: ' . $e->getMessage());
+            return 0;
         }
-
-        return $count;
     }
 
-    /**
-     * Save attendance records to database
-     * 
-     * @param array $attendanceData
-     * @param int $userId
-     * @param int $trainerId
-     * @return int Count of saved records
-     */
-    private function saveAttendanceRecords($attendanceData, $userId, $trainerId): int
+    private function saveAttendanceRecords($attendanceData, $userId, $trainerId, $courseId = 1): int
     {
         $count = 0;
 
@@ -303,19 +315,16 @@ class TrainerStatsController extends Controller
 
             try {
                 // Create or update attendance record
-                AttendanceRecord::updateOrCreate(
-                    [
-                        'user_id' => $userId,
-                        'week' => $week,
-                    ],
-                    [
-                        'trainer_id' => $trainerId,
-                        'attendance_count' => $attendanceCount,
-                        'total_sessions' => 5, // Default: 5 sessions per week
-                        'attendance_percentage' => ($attendanceCount / 5) * 100,
-                        'recorded_at' => now(),
-                    ]
-                );
+                AttendanceRecord::create([
+                    'user_id' => $userId,
+                    'week' => $week,
+                    'trainer_id' => $trainerId ?? session('vendor_id'),
+                    'course_id' => $courseId,
+                    'attendance_count' => $attendanceCount,
+                    'total_sessions' => 5,
+                    'attendance_percentage' => ($attendanceCount / 5) * 100,
+                    'recorded_at' => now(),
+                ]);
 
                 $count++;
 
@@ -544,5 +553,52 @@ class TrainerStatsController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+    private function savePerformance($data, $userId, $trainerId, $categoryId, $courseId)
+    {
+        try {
+
+            // ✅ FIX: proper filter (0 ko allow karo)
+            $hasData = collect($data)->filter(function ($v) {
+                return $v !== null && $v !== '';
+            })->count();
+
+            if ($hasData == 0) {
+                Log::info('Performance skipped: no valid data', $data);
+                return;
+            }
+
+            Performance::updateOrCreate(
+                [
+                    'user_id' => $userId,
+                    'course_id' => $courseId,
+                ],
+                [
+                    'trainer_id' => $trainerId,
+                    'category_id' => $categoryId,
+
+                    'runs' => $data['runs'] ?? null,
+                    'wickets' => $data['wickets'] ?? null,
+                    'strick_rate' => $data['strick_rate'] ?? null,
+                    'ecconomy' => $data['ecconomy'] ?? null,
+                    'total_matches' => $data['total_matches'] ?? null,
+                    'batting_average' => $data['batting_average'] ?? null,
+                    'high_score' => $data['high_score'] ?? null,
+                    'centuries' => $data['centuries'] ?? null,
+                    'half_centuries' => $data['half_centuries'] ?? null,
+                    'catches' => $data['catches'] ?? null,
+                    'best_bowlingfigures' => $data['best_bowlingfigures'] ?? null,
+                    'age' => $data['age'] ?? null,
+                    'batting' => $data['batting'] ?? null,
+                    'bowling' => $data['bowling'] ?? null,
+                    'accadmy' => $data['accadmy'] ?? null,
+                ]
+            );
+
+            Log::info('Performance saved', $data);
+
+        } catch (\Exception $e) {
+            Log::error('Performance Save Error: ' . $e->getMessage());
+        }
     }
 }

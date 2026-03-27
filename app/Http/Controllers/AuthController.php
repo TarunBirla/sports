@@ -11,13 +11,13 @@ use App\Models\Order;
 
 class AuthController extends Controller
 {
-   // REGISTER
+    // REGISTER
     public function register(Request $req)
     {
         User::create([
-            'name'=>$req->name,
-            'email'=>$req->email,
-            'password'=>bcrypt($req->password)
+            'name' => $req->name,
+            'email' => $req->email,
+            'password' => bcrypt($req->password)
         ]);
 
         return redirect('/login');
@@ -26,24 +26,24 @@ class AuthController extends Controller
     // LOGIN
     public function login(Request $req)
     {
-        if(Auth::attempt($req->only('email','password'))){
+        if (Auth::attempt($req->only('email', 'password'))) {
 
             $vendor = Vendor::where('email', $req->email)->first();
-            if($vendor){
+            if ($vendor) {
                 Session::put('vendor_id', $vendor->id);
                 Session::put('vendor_type', $vendor->type);
-                  $user = User::where('email', $req->email)->first();
-                 Auth::login($user);
+                $user = User::where('email', $req->email)->first();
+                Auth::login($user);
                 return redirect('/vendor/dashboard');
             }
 
             $user = User::where('email', $req->email)->first();
             Auth::login($user);
-           
+
             return redirect('/');
         }
 
-        return back()->with('error','Invalid login');
+        return back()->with('error', 'Invalid login');
     }
 
     // LOGOUT
@@ -52,11 +52,39 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/');
     }
-    public function profile()
-    {
-        return view('auth.profile');
-    }
-    
+
+
+
+
+public function profile()
+{
+    $userId = auth()->id();
+
+    // Latest Orders
+    $orders = Order::with('items')
+                ->where('user_id', $userId)
+                ->latest()
+                ->take(5)
+                ->get();
+
+    // ✅ Total Orders
+    $totalOrders = Order::where('user_id', $userId)->count();
+
+    // ✅ Total Earnings (column = total)
+    $totalEarnings = Order::where('user_id', $userId)
+                        ->sum('total');
+
+    // ❌ status nahi hai to temporary logic:
+    $completedOrders = $totalOrders; // ya koi aur logic bana sakte ho
+
+    return view('auth.profile', compact(
+        'orders',
+        'totalOrders',
+        'completedOrders',
+        'totalEarnings'
+    ));
+}
+
     public function dashboard($categoryId)
     {
         $stats = StatValue::with('field')
@@ -65,5 +93,25 @@ class AuthController extends Controller
             ->get();
 
         return view('user.dashboard', compact('stats'));
+    }
+    public function updateProfile(Request $req)
+    {
+        $user = auth()->user();
+
+        $user->update([
+            'age' => $req->age,
+            'batting' => $req->batting,
+            'bowling' => $req->bowling,
+            'academy' => $req->academy,
+
+            'total_matches' => $req->total_matches,
+            'runs' => $req->runs,
+            'wickets' => $req->wickets,
+            'strike_rate' => $req->strike_rate,
+            'batting_average' => $req->batting_average,
+            'high_score' => $req->high_score,
+        ]);
+
+        return back()->with('success', 'Profile updated successfully');
     }
 }

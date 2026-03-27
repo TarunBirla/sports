@@ -271,21 +271,14 @@
                     @endif
                 </div>
 
-                {{-- Price --}}
                 <div class="price-row">
                     <span class="price-main">£{{ number_format($course->price, 2) }}</span>
                     <span class="price-old">£{{ number_format($course->price * 1.4, 2) }}</span>
                    
                 </div>
                 
-
-                {{-- Buttons --}}
                 <a href="{{ url('/cart/add/course/'.$course->id) }}" class="btn-cart-sm">🛒 Add to Cart</a>
                
-
-               
-
-
             </div>
         </div>
 

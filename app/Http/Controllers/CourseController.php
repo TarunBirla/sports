@@ -61,33 +61,33 @@ class CourseController extends Controller
 
     // UPDATE
    public function update(Request $req, $id)
-{
-    
-    $req->validate([
-        'title' => 'required',
-        'price' => 'required',
-        'category_id' => 'required'
-    ]);
+    {
+        
+        $req->validate([
+            'title' => 'required',
+            'price' => 'required',
+            'category_id' => 'required'
+        ]);
 
-    $course = Course::findOrFail($id);
+        $course = Course::findOrFail($id);
 
-    $image = $course->image;
+        $image = $course->image;
 
-    if ($req->hasFile('image')) {
-        $image = time().'.'.$req->image->extension();
-        $req->image->move(public_path('courses'), $image);
+        if ($req->hasFile('image')) {
+            $image = time().'.'.$req->image->extension();
+            $req->image->move(public_path('courses'), $image);
+        }
+
+        $course->update([
+            'title' => $req->title,
+            'price' => $req->price,
+            'description' => $req->description,
+            'category_id' => $req->category_id,
+            'image' => $image
+        ]);
+
+        return redirect('/vendor/course');
     }
-
-    $course->update([
-        'title' => $req->title,
-        'price' => $req->price,
-        'description' => $req->description,
-        'category_id' => $req->category_id,
-        'image' => $image
-    ]);
-
-    return redirect('/vendor/course');
-}
     // DELETE
     public function delete($id)
     {
