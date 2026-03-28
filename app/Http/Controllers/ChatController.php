@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -15,7 +16,7 @@ class ChatController extends Controller
     {
         $userId = Auth::user()->id;
 
-        $vendors = User::whereNotNull('trainer_id')->get();
+        $vendors = Vendor::all();
 
         return view('dashboard.chat', compact('vendors', 'userId'));
     }
