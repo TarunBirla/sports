@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div style="max-width:900px">
+<div >
 
     <h2 style="margin-bottom:1.5rem">Product Orders</h2>
 

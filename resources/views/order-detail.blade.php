@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div style="max-width:900px;margin:3rem auto;padding:0 1.5rem">
+<div style="margin:3rem auto;padding:0 1.5rem">
 
     <!-- HEADER -->
     <div style="margin-bottom:2rem">

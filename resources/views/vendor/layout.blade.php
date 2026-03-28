@@ -25,10 +25,10 @@
       --border: #d0e2f7;
       --border-strong: #a8c8f0;
       --text-primary: #0d1f3c;
-      --text-secondary: #4a6890;
+      --text-secondary: #fff;
       --text-muted: #8aaac8;
-      --accent: #1a6fd4;
-      --accent-light: #e3eefd;
+      --accent: rgb(134 239 172);
+      --accent-light: rgb(21 128 61 / 40%);
       --accent-hover: #1558b0;
       --gold: #b45309;
       --gold-light: #fef3c7;
@@ -38,7 +38,7 @@
       --green-border: #86efac;
       --red: #dc2626;
       --red-light: #fee2e2;
-      --sidebar-w: 240px;
+      --sidebar-w: 280px;
     }
 
     html {
@@ -61,7 +61,14 @@
   width: var(--sidebar-w);
   height: 100vh;
   overflow-y: auto;   /* ✅ SCROLL ENABLE */
-  background: var(--surface);
+  /* background: var(--surface); */
+   background:
+    linear-gradient(
+      135deg,
+      hsl(220 50% 12%),
+      hsl(220 45% 18%),
+      hsl(145 40% 20%)
+    );
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;

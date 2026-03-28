@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div style="max-width:860px">
+    <div >
 
         {{-- Section header --}}
         <div

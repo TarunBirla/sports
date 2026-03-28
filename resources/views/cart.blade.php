@@ -6,7 +6,7 @@
     $total = 0;
 @endphp
 
-<div style="max-width:900px;margin:3rem auto;padding:0 1.5rem 6rem">
+<div style="margin:3rem auto;padding:0 1.5rem 6rem">
 
     <!-- HEADER -->
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:2rem;border-bottom:1.5px solid #d0e2f7;padding-bottom:1.2rem">

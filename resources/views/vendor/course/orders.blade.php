@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div style="max-width:900px">
+    <div >
 
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
             <h2>📚 My Orders</h2>

@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div style="max-width:860px">
+<div >
 
     {{-- Section header --}}
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1.5px solid #d0e2f7">
