@@ -298,14 +298,14 @@
             <h2 class="section-title">📚 What You'll Learn</h2>
             <div class="outcomes-grid">
                 @foreach([
-                    'Core theoretical foundations',
-                    'Industry-standard techniques',
-                    'Practical hands-on skills',
-                    'Real-world case studies',
-                    'Assessment & certification',
-                    'Performance evaluation methods',
-                    'Professional best practices',
-                    'Career advancement strategies',
+                    'Fundamentals of batting, bowling & fielding techniques',
+                    'Proper stance, grip, and shot selection for batting',
+                    'Fast bowling and spin bowling techniques',
+                    'Fielding drills including catching, throwing & agility',
+                    'Match awareness and game strategy development',
+                    'Fitness training for stamina, strength & endurance',
+                    'Practice sessions with real match scenarios',
+                    'Performance tracking and improvement techniques',
                 ] as $outcome)
                 <div class="outcome-item">
                     <span class="outcome-icon">✔</span>
@@ -318,15 +318,15 @@
         {{-- Tabs: Curriculum / Requirements / Reviews / Info --}}
         <div class="section-card">
             <div class="tab-nav">
-                <button class="tab-btn active" onclick="openTab(event,'t-curriculum')">🗂️ Curriculum</button>
+                <!-- <button class="tab-btn active" onclick="openTab(event,'t-curriculum')">🗂️ Curriculum</button> -->
                 <button class="tab-btn" onclick="openTab(event,'t-requirements')">📋 Requirements</button>
-                <button class="tab-btn" onclick="openTab(event,'t-reviews')">⭐ Reviews</button>
+                <!-- <button class="tab-btn" onclick="openTab(event,'t-reviews')">⭐ Reviews</button> -->
                 <button class="tab-btn" onclick="openTab(event,'t-instructor')">👤 Instructor</button>
                 <button class="tab-btn" onclick="openTab(event,'t-faq')">💬 FAQ</button>
             </div>
 
             {{-- CURRICULUM --}}
-            <div id="t-curriculum" class="tab-content active">
+            <!-- <div id="t-curriculum" class="tab-content active">
                 <p style="font-size:13px;color:#888;margin-bottom:16px;">
                     6 modules • 28 lessons • 18 hours total
                 </p>
@@ -376,70 +376,19 @@
                     </div>
                 </div>
                 @endforeach
-            </div>
+            </div> -->
 
             {{-- REQUIREMENTS --}}
             <div id="t-requirements" class="tab-content">
                 <h4 style="font-weight:700;color:var(--ink);margin-bottom:14px;">Prerequisites</h4>
-                @foreach([
-                    'No prior experience required — complete beginners welcome',
-                    'Basic computer literacy helpful but not essential',
-                    'A willingness to learn and apply new skills',
-                    'Stable internet connection for video content',
-                    'Notepad/journal recommended for exercises',
-                ] as $req)
-                <div class="req-item"><span style="color:var(--gold);">◆</span> {{ $req }}</div>
-                @endforeach
-
-                <h4 style="font-weight:700;color:var(--ink);margin:20px 0 14px;">Who This Is For</h4>
-                @foreach([
-                    'Beginners looking to build solid foundational knowledge',
-                    'Professionals seeking certification and career advancement',
-                    'Anyone wanting structured, expert-led training',
-                    'Teams looking for group training solutions',
-                ] as $who)
-                <div class="req-item"><span style="color:var(--sage);">✔</span> {{ $who }}</div>
-                @endforeach
-            </div>
-
-            {{-- REVIEWS --}}
-            <div id="t-reviews" class="tab-content">
-                <div style="display:flex;gap:30px;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;">
-                    <div style="text-align:center;min-width:90px;">
-                        <div style="font-size:56px;font-family:'Playfair Display',serif;font-weight:700;color:var(--ink);line-height:1;">4.8</div>
-                        <div class="stars" style="font-size:20px;">★★★★★</div>
-                        <div style="font-size:12px;color:#888;margin-top:4px;">Course Rating</div>
-                    </div>
-                    <div style="flex:1;min-width:200px;">
-                        @foreach([5=>85,4=>10,3=>3,2=>1,1=>1] as $s=>$pct)
-                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                            <div class="progress-bar"><div class="progress-fill" style="width:{{$pct}}%;"></div></div>
-                            <span style="font-size:12px;color:#888;width:60px;">{{ $s }} Stars</span>
-                            <span style="font-size:12px;color:#888;width:30px;">{{ $pct }}%</span>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                @foreach([
-                    ['S','Sarah M.','★★★★★','This training completely transformed how I approach my work. Crystal clear instruction, excellent resources, and the certificate is genuinely recognised by employers.'],
-                    ['J','James P.','★★★★★','Best structured course I\'ve taken. The modules build perfectly on each other and the instructor clearly knows their stuff.'],
-                    ['A','Aisha K.','★★★★☆','Really comprehensive and well paced. I finished in 3 weeks and immediately saw results. Would love a bit more interactive content.'],
-                ] as [$init,$name,$stars,$text])
-                <div class="review-card">
-                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-                        <div style="display:flex;gap:12px;align-items:center;">
-                            <div class="reviewer-avatar">{{ $init }}</div>
-                            <div>
-                                <div style="font-weight:700;font-size:14px;color:var(--ink);">{{ $name }}</div>
-                                <div style="color:var(--gold);font-size:13px;">{{ $stars }}</div>
-                            </div>
-                        </div>
-                        <span style="font-size:12px;color:#bbb;">2 weeks ago</span>
-                    </div>
-                    <p style="font-size:14px;color:var(--ink-soft);line-height:1.75;margin:0;">{{ $text }}</p>
-                </div>
-                @endforeach
+                    @foreach([
+                        'No prior cricket experience required — beginners welcome',
+                        'Basic fitness level recommended for training sessions',
+                        'Bring your own cricket kit (bat, gloves, pads optional)',
+                        'Strong interest in learning and improving cricket skills'
+                    ] as $req)
+                    <div class="req-item"><span style="color:var(--gold);">◆</span> {{ $req }}</div>
+                 @endforeach
             </div>
 
             {{-- INSTRUCTOR --}}
@@ -459,20 +408,18 @@
                     </div>
                 </div>
                 <p style="font-size:14px;color:var(--ink-soft);line-height:1.75;margin-top:18px;">
-                    A seasoned professional with over 8 years of hands-on industry experience, our trainer has delivered programmes
-                    for leading organisations across the UK. Their practical, results-focused approach ensures every student leaves
-                    equipped with real-world skills they can apply immediately.
+                   An experienced cricket coach with over 8 years of professional training expertise, specializing in batting, bowling, and fielding techniques. The coach has trained players at district and state levels, focusing on skill development, match performance, and fitness. Their practical coaching approach ensures players improve consistently and gain confidence for real match situations.
                 </p>
             </div>
 
             {{-- FAQ --}}
             <div id="t-faq" class="tab-content">
                 @foreach([
-                    ['Is this suitable for complete beginners?','Absolutely. The course starts from the very basics and gradually builds up, so no prior experience is required.'],
-                    ['How long do I have access?','You get full lifetime access including all future updates at no extra charge.'],
-                    ['Will I receive a certificate?','Yes — on completion you receive a verifiable digital certificate recognised by industry employers.'],
-                    ['Can I learn at my own pace?','100%. All lessons are pre-recorded so you can study whenever and wherever suits you.'],
-                    ['What if I\'m not satisfied?','We offer a full 30-day money-back guarantee — no questions asked.'],
+                    ['Is this training suitable for beginners?','Yes, the program is designed for beginners as well as intermediate players.'],
+                    ['What equipment do I need?','Basic cricket kit is recommended, but beginners can start without full equipment.'],
+                    ['Are there live practice matches?','Yes, regular practice matches are conducted to improve real-game performance.'],
+                    ['Will fitness training be included?','Yes, sessions include fitness, stamina, and agility training.'],
+                    ['Do I get a certificate?','Yes, a training completion certificate will be provided.'],
                 ] as [$q,$a])
                 <details style="border-bottom:1px solid var(--border);padding:16px 0;cursor:pointer;">
                     <summary style="font-weight:600;color:var(--ink);font-size:15px;list-style:none;display:flex;justify-content:space-between;">
@@ -500,13 +447,10 @@
             <h3 class="section-title" style="font-size:1.1rem;">📋 Training Details</h3>
             <table class="info-table">
                 <tr><td>Level</td><td>All Levels</td></tr>
-                <tr><td>Duration</td><td>18 Hours</td></tr>
+                <tr><td>Duration</td><td>Weekly Sessions</td></tr>
                 <tr><td>Modules</td><td>6 Modules</td></tr>
                 <tr><td>Lessons</td><td>28 Lessons</td></tr>
                 <tr><td>Language</td><td>English</td></tr>
-                <tr><td>Certificate</td><td>✔ Included</td></tr>
-                <tr><td>Access</td><td>Lifetime</td></tr>
-                <tr><td>Format</td><td>Online / On-Demand</td></tr>
                 <tr><td>Category</td><td>{{ optional($course->category)->name ?? '—' }}</td></tr>
                 <tr><td>Last Updated</td><td>March 2025</td></tr>
             </table>
@@ -516,8 +460,7 @@
         <div class="section-card">
             <h3 class="section-title" style="font-size:1.1rem;">🏷️ Tags</h3>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                @foreach(['Training','Professional','Certification','Online','Career','Skills','Expert','Development'] as $tag)
-                <span style="background:var(--cream);border:1px solid var(--border);border-radius:50px;padding:5px 13px;font-size:12px;color:var(--ink-soft);font-weight:500;">{{ $tag }}</span>
+                @foreach(['Cricket','Batting','Bowling','Fielding','Fitness','Coaching','Sports Training','Academy'] as $tag)                <span style="background:var(--cream);border:1px solid var(--border);border-radius:50px;padding:5px 13px;font-size:12px;color:var(--ink-soft);font-weight:500;">{{ $tag }}</span>
                 @endforeach
             </div>
         </div>

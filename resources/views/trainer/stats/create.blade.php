@@ -1,12 +1,8 @@
 @extends('vendor.layout')
-
 @section('page_title', 'User List')
-
 @section('content')
 
 <div class="space-y-6">
-
-    <!-- TOP STATS -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <div class="bg-white p-5 rounded-xl border shadow-sm">
