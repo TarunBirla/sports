@@ -89,18 +89,18 @@
 
                         <!-- PRICE + ACTION -->
                         <div class="flex items-center justify-between mt-4">
-                            <span class="text-yellow-500 font-semibold text-lg">
+                            <span class="text-yellow-500 font-semibold text-sm">
                                 £{{ $c->price }} / month
                             </span>
 
                             <div class="flex gap-2">
                                 <a href="{{ url('course/'.$c->id) }}"
-                                   class="bg-gray-200 px-3 py-1 rounded text-sm">
+                                   class="bg-gray-200 px-2 py-1 rounded text-xs">
                                     View
                                 </a>
 
                                 <a href="{{ url('/cart/add/course/'.$c->id) }}"
-                                   class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">
+                                   class="bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700">
                                     +Add to Cart
                                 </a>
                             </div>
