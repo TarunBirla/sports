@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\StatValue;
+use App\Models\StatField;
+use App\Models\StatCategory;
+use App\Models\AttendanceRecord;
+use App\Models\Course;
+use App\Models\StudentFitness;
+use App\Models\StudentPerformance;
+use App\Models\StudentAttendance;
 
 class User extends Authenticatable
 {
@@ -22,7 +29,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-         // NEW PROFILE FIELDS
         'total_matches',
         'runs',
         'wickets',
@@ -36,21 +42,11 @@ class User extends Authenticatable
         'academy'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -60,18 +56,33 @@ class User extends Authenticatable
     {
         return $this->hasMany(StatValue::class, 'user_id');
     }
- 
-    /**
-     * Get all stats recorded by this trainer
-     */
+
+    public function performance()
+    {
+        return $this->hasMany(StudentPerformance::class, 'user_id');
+    }
+
+    public function fitness()
+    {
+        return $this->hasMany(StudentFitness::class, 'user_id');
+    }
+
+    public function attendance()
+    {
+        return $this->hasMany(StudentAttendance::class, 'user_id');
+    }
+
+
     public function recordedStats(): HasMany
     {
         return $this->hasMany(StatValue::class, 'trainer_id');
     }
- 
-    /**
-     * Get all attendance records for this user
-     */
+
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class, 'trainer_id');
+    }
+
     public function attendanceRecords(): HasMany
     {
         return $this->hasMany(AttendanceRecord::class, 'user_id');

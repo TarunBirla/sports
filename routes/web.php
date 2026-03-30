@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\TrainerStatsController;
+use App\Http\Controllers\StudentStatsController;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -103,6 +104,9 @@ use App\Http\Controllers\ChatController;
         [TrainerStatsController::class, 'create'])
         ->name('trainer.stats.create');
 
+    Route::get('/student-stats/{userId}', [StudentStatsController::class, 'index']);
+    Route::post('/student-stats/{userId}', [StudentStatsController::class, 'save']);
+    Route::get('/student-stats/list/{userId}', [StudentStatsController::class, 'list']);
     // Store stats
     Route::post('/stats/store', 
         [TrainerStatsController::class, 'store'])

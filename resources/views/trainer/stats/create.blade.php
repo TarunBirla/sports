@@ -1,499 +1,88 @@
 @extends('vendor.layout')
 
-@section('page_title', 'Add training')
+@section('page_title', 'User List')
 
 @section('content')
 
+<div class="space-y-6">
 
-    <style>
-        :root {
-            --primary: #2563eb;
-            --accent: #10b981;
-            --danger: #ef4444;
-            --border: #e5e7eb;
-            --text: #111827;
-            --text-muted: #6b7280;
-        }
+    <!-- TOP STATS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .page-header {
-            margin-bottom: 2rem;
-        }
-
-        .page-title {
-            font-size: 1.875rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid;
-        }
-
-        .alert-success {
-            background: #ecfdf5;
-            border-left-color: var(--accent);
-            color: #065f46;
-        }
-
-        .alert-danger {
-            background: #fef2f2;
-            border-left-color: var(--danger);
-            color: #7f1d1d;
-        }
-
-        .form-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        .form-header {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .form-header h3 {
-            margin: 0;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .form-body {
-            padding: 2rem;
-        }
-
-        .form-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .section-icon {
-            font-size: 1.5rem;
-        }
-
-        .fields-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .field-label {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .field-icon {
-            font-size: 1.1rem;
-        }
-
-        .form-input {
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .form-input.is-invalid {
-            border-color: var(--danger);
-            background: rgba(239, 68, 68, 0.02);
-        }
-
-        .form-error {
-            color: var(--danger);
-            font-size: 0.8rem;
-            margin-top: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #1e40af);
-            color: white;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .form-info {
-            background: rgba(37, 99, 235, 0.05);
-            border-left: 4px solid var(--primary);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .field-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.4rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            .form-body {
-                padding: 1.5rem;
-            }
-
-            .fields-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
-
-    <div class="container">
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1 class="page-title">📊 Enter Athlete Stats</h1>
-            <p style="color: var(--text-muted); margin: 0;">
-                Record and track performance metrics for comprehensive athlete analysis
-            </p>
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+            <p class="text-sm text-gray-500">Total Users</p>
+            <h2 class="text-2xl font-bold mt-1">1,245</h2>
         </div>
 
-        <!-- Alert Messages -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                ⚠️ Please fix highlighted fields
-            </div>
-        @endif
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+            <p class="text-sm text-gray-500">Active Users</p>
+            <h2 class="text-2xl font-bold mt-1 text-green-600">1,032</h2>
+        </div>
 
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+            <p class="text-sm text-gray-500">New This Month</p>
+            <h2 class="text-2xl font-bold mt-1 text-blue-600">+86</h2>
+        </div>
 
-        @endif
+    </div>
 
-        <!-- Main Form -->
-        <form method="POST" action="{{ route('trainer.stats.store') }}" novalidate>
-            @csrf
-            
-               <select name="userss " class="form-body"> 
-                    <option value="">Select Category</option>
-                    @foreach($allusers as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
-               <select>
 
-            <input type="hidden" name="category_id" value="{{ $categoryId }}">
-            <input type="hidden" name="user_id" value="{{ $user->id ?? 1 }}">
-            
-            <input type="hidden" name="course_id" value="{{ $course->id ?? 1 }}">
+    <!-- SEARCH + FILTER -->
+    <div class="bg-white p-4 rounded-xl border shadow-sm flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
 
-            <div class="form-card">
+        <input type="text" placeholder="Search users..."
+            class="border rounded-lg px-4 py-2 w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400">
 
-                <!-- Form Header -->
-                <div class="form-header">
-                    <h3>
-                        📋 {{ $category->name ?? 'Performance Metrics' }}
-                    </h3>
-                    <p style="margin: 0.5rem 0 0 0; color: var(--text-muted); font-size: 0.9rem;">
-                        @if($user)
-                            Recording stats for <strong>{{ $user->name }}</strong>
-                        @endif
-                    </p>
-                </div>
+        <select class="border rounded-lg px-4 py-2">
+            <option>All Users</option>
+            <option>Active</option>
+            <option>Inactive</option>
+        </select>
 
-                <!-- Form Body -->
-                <div class="form-body">
+    </div>
 
-                    <!-- Info Box -->
-                    <div class="form-info">
-                        ℹ️ Enter accurate measurements for each metric. All values will be saved to the athlete's profile
-                        and used for performance analysis.
-                    </div>
 
-                    
-                    <div class="form-section">
-                        <h2 class="section-title">
-                            <span class="section-icon">🏏</span>
-                            Performance Stats
-                        </h2>
+    <!-- USER TABLE -->
+    <div class="bg-white rounded-xl border shadow-sm overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-100 text-gray-600">
+                <tr>
+                    <th class="p-4 text-left">User</th>
+                    <th class="p-4 text-left">Email</th>
+                    <th class="p-4 text-left">Status</th>
+                    <th class="p-4 text-left">Joined</th>
+                    <th class="p-4 text-left">Action</th>
+                </tr>
+            </thead>
 
-                        <div class="fields-grid">
-                            @foreach($fields as $field)
-                                <div class="form-field">
+            <tbody class="divide-y">
 
-                                    <label class="field-label">
-                                        {{ $field->name }}
-                                    </label>
-
-                                    <input 
-                                        type="number"
-                                        name="fields[{{ $field->id }}]"
-                                        value="{{ old("fields.{$field->id}") }}"
-                                        class="form-input @error("fields.{$field->id}") is-invalid @enderror"
-                                    >
-
-                                    {{-- ✅ ERROR SHOW HERE --}}
-                                    @error("fields.{$field->id}")
-                                        <div class="form-error">
-                                            ⚠️ {{ $message }}
-                                        </div>
-                                    @enderror
-
-                                </div>
-                            @endforeach
+                <!-- USER 1 -->
+                @foreach ($allusers as $user)
+                <tr class="hover:bg-gray-50">
+                    <td class="p-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center font-bold">
+                            A
                         </div>
-                        <!-- </div>
-                        <div class="fields-grid">
-
-
-                            <div class="form-field">
-                                <label>Runs</label>
-                                <input type="number" name="performance[runs]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Wickets</label>
-                                <input type="number" name="performance[wickets]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Strike Rate</label>
-                                <input type="number" step="0.01" name="performance[strick_rate]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Economy</label>
-                                <input type="number" step="0.01" name="performance[ecconomy]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Total Matches</label>
-                                <input type="number" name="performance[total_matches]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Batting Avg</label>
-                                <input type="number" step="0.01" name="performance[batting_average]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>High Score</label>
-                                <input type="number" name="performance[high_score]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Centuries</label>
-                                <input type="number" name="performance[centuries]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Half Centuries</label>
-                                <input type="number" name="performance[half_centuries]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Catches</label>
-                                <input type="number" name="performance[catches]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Best Bowling</label>
-                                <input type="text" name="performance[best_bowlingfigures]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Age</label>
-                                <input type="number" name="performance[age]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Batting Style</label>
-                                <input type="text" name="performance[batting]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Bowling Style</label>
-                                <input type="text" name="performance[bowling]" class="form-input">
-                            </div>
-
-                            <div class="form-field">
-                                <label>Academy</label>
-                                <input type="text" name="performance[accadmy]" class="form-input">
-                            </div>
-
-                        </div> -->
-                    </div>
-
-                    <!-- FITNESS TRACKING SECTION -->
-                    <div class="form-section">
-                        <h2 class="section-title">
-                            <span class="section-icon">💪</span>
-                            Fitness Tracking
-                        </h2>
-
-                        <div class="fields-grid">
-                            @php
-                                $fitnessFields = [
-                                    'speed' => '⚡ Speed',
-                                    'stamina' => '🫁 Stamina',
-                                    'strength' => '🏋️ Strength',
-                                    'agility' => '🏃 Agility',
-                                    'flexibility' => '🤸 Flexibility',
-                                    'endurance' => '💨 Endurance'
-                                ];
-                            @endphp
-
-                            @foreach($fitnessFields as $field => $label)
-                                <div class="form-field">
-                                    <label class="field-label">{{ $label }}</label>
-                                    <input type="number" name="fitness[{{ $field }}]"
-                                        class="form-input @error("fitness.{$field}") is-invalid @enderror" placeholder="0 - 100"
-                                        min="0" max="100" step="0.01">
-                                    <div class="field-hint">0-100 points</div>
-                                    @error("fitness.{$field}")
-                                        <div class="form-error">⚠️ {{ $message }}</div>
-                                    @enderror
-                                </div>
-                            @endforeach
+                          <div>
+                            <div class="font-semibold"> {{ $user->name }} </div>
+                            <div class="text-xs text-gray-500">Cricket Player</div>
                         </div>
-                    </div>
-
-                    <!-- ATTENDANCE SECTION -->
-                    <div class="form-section">
-                        <h2 class="section-title">
-                            <span class="section-icon">📅</span>
-                            Weekly Attendance
-                        </h2>
-
-                        <div class="fields-grid">
-                            @for($week = 1; $week <= 8; $week++)
-                                <div class="form-field">
-                                    <label class="field-label">
-                                        📍 Month {{ $week }}
-                                    </label>
-                                    <input type="number" name="attendance[W{{ $week }}]"
-                                        class="form-input @error("attendance.W{$week}") is-invalid @enderror"
-                                        placeholder="Sessions attended" min="0" max="20">
-                                    <div class="field-hint">Sessions attended</div>
-                                    @error("attendance.W{{ $week }}")
-                                        <div class="form-error">⚠️ {{ $message }}</div>
-                                    @enderror
-                                </div>
-                            @endfor
+                    </td>
+                    <td class="p-4"> {{ $user->email }} </td>
+                    <td class="p-4">Active</td>
+                    <td class="p-4"> {{ date('M j, Y', strtotime($user->created_at)) }}  </td>
+                    <td class="p-4">
+                        <div class="flex items-center gap-2">
+                            <a href="{{ url('/student-stats/'.$user->id) }}" class="btn btn-primary">Enter Stats</a>
+                            <a href="{{ url('/student-stats/list/'.$user->id) }}" class="btn btn-secondary">Stats List</a>      
                         </div>
-                    </div>
 
-                </div>
+                    </td>
 
-                <!-- Form Actions -->
-                <div class="form-actions">
-                    <a href="{{ route('trainer.stats.index') }}" class="btn btn-secondary">
-                        ← Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        💾 Save All Stats
-                    </button>
-                </div>
-
-            </div>
-
-        </form>
-
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
     <script>

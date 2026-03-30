@@ -28,6 +28,7 @@ class TrainerStatsController extends Controller
     public function create($categoryId, $userId = null, $courseId = null)
     {
         try {
+
             $trainerId = session('vendor_id') ?? auth()->id();
 
             $allusers = User::where('trainer_id', $trainerId)->get();
@@ -70,11 +71,10 @@ class TrainerStatsController extends Controller
 
 
             Log::info('Stats form accessed', [
-                'trainer_id' => $trainerId,
+                'trainer_id'  => $trainerId,
                 'category_id' => $categoryId,
-                'user_id' => $userId,
+                'user_id'     => $userId,
                 'field_count' => $fields->count(),
-                'user' => $user,
                 'course' => $course
             ]);
 
