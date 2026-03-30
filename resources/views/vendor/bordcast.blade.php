@@ -140,13 +140,44 @@
                 </tr>
             </thead>
 
-            <tbody class="divide-y">
+           <tbody class="divide-y">
+
+                @forelse($messages as $msg)
                 <tr>
-                    <td class="p-4 font-semibold">New Training</td>
-                    <td class="p-4">All</td>
-                    <td class="p-4">Email</td>
-                    <td class="p-4 text-green-600">Sent</td>
+                    <!-- Title -->
+                    <td class="p-4 font-semibold">
+                        {{ $msg->subject ?? 'No Subject' }}
+                    </td>
+
+                    <!-- Users (static for now) -->
+                    <td class="p-4">
+                        All
+                    </td>
+
+                    <!-- Type (static for now) -->
+                    <td class="p-4">
+                        Message
+                    </td>
+
+                    <!-- Status -->
+                    <td class="p-4 
+                        @if($msg->status == 'sent') text-green-600
+                        @elseif($msg->status == 'pending') text-yellow-500
+                        @else text-red-600
+                        @endif">
+                        
+                        {{ ucfirst($msg->status) }}
+                    </td>
                 </tr>
+
+                @empty
+                <tr>
+                    <td colspan="4" class="p-6 text-center text-gray-500">
+                        No broadcasts found
+                    </td>
+                </tr>
+                @endforelse
+
             </tbody>
 
         </table>

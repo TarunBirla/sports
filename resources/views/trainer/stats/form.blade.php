@@ -341,6 +341,7 @@
   <form method="POST" action="{{ url('/student-stats/'.$userId) }}">
     @csrf
 
+    
     <!-- PERFORMANCE -->
     <div class="section">
       <div class="section-header">
@@ -353,33 +354,55 @@
 
           <div class="field">
             <label>Runs</label>
-            <input type="text" name="runs" placeholder="e.g. 3420">
+            <input type="text" name="runs" id="runs" placeholder="e.g. 3420">
           </div>
 
           <div class="field">
-            <label>Economy</label>
-            <input type="text" name="economy" placeholder="e.g. 7.2">
-          </div>
-
-          <div class="field">
-            <label>Wickets</label>
-            <input type="text" name="wickets" placeholder="e.g. 45">
+            <label>Balls Faced</label>
+            <input type="text" name="balls_faced" id="balls" placeholder="Balls faced">
           </div>
 
           <div class="field">
             <label>Total Matches</label>
-            <input type="text" name="total_matches" placeholder="e.g. 60">
-          </div>
-
-          <div class="field">
-            <label>Strike Rate</label>
-            <input type="text" name="strike_rate" placeholder="e.g. 132.4">
+            <input type="text" name="total_matches" id="matches" placeholder="e.g. 60">
           </div>
 
           <div class="field">
             <label>Batting Average</label>
-            <input type="text" name="batting_average" placeholder="e.g. 38.6">
+            <input type="text" name="batting_average" id="batting_average" readonly placeholder="e.g. 38.6">
           </div>
+
+          <div class="field">
+            <label>Strike Rate</label>
+            <input type="text" name="strike_rate" id="strike_rate" readonly placeholder="e.g. 132.4">
+          </div>
+
+          
+
+          <div class="field">
+            <label>Overs Bowled</label>
+            <input type="text" name="overs_bowled" id="overs" placeholder="Overs bowled">
+          </div>
+          <div class="field">
+            <label>Runs Conceded</label>
+            <input type="text" name="runs_conceded" id="runs_conceded" placeholder="Runs conceded">
+          </div>
+          <div class="field">
+            <label>Wickets</label>
+            <input type="text" name="wickets"  id="wickets" placeholder="e.g. 45">
+          </div>
+          
+          <div class="field">
+            <label>Economy</label>
+            <input type="text" name="economy" id="economy" readonly placeholder="e.g. 7.2">
+          </div>
+
+          
+
+
+          
+
+          
 
           <div class="field">
             <label>High Score</label>
@@ -550,6 +573,39 @@
 
   </form>
 </div>
+
+<script>
+
+function calculateStats() {
+
+    let runs = parseFloat(document.getElementById('runs').value) || 0;
+    let matches = parseFloat(document.getElementById('matches').value) || 0;
+    let balls = parseFloat(document.getElementById('balls').value) || 0;
+
+    let overs = parseFloat(document.getElementById('overs').value) || 0;
+    let runsConceded = parseFloat(document.getElementById('runs_conceded').value) || 0;
+
+    // ✅ Batting Average = Runs / Matches
+    let avg = matches > 0 ? (runs / matches).toFixed(2) : 0;
+
+    // ✅ Strike Rate = (Runs / Balls) * 100
+    let sr = balls > 0 ? ((runs / balls) * 100).toFixed(2) : 0;
+
+    // ✅ Economy = Runs Conceded / Overs
+    let eco = overs > 0 ? (runsConceded / overs).toFixed(2) : 0;
+
+    document.getElementById('batting_average').value = avg;
+    document.getElementById('strike_rate').value = sr;
+    document.getElementById('economy').value = eco;
+}
+
+// trigger on input
+document.querySelectorAll('#runs, #matches, #balls, #overs, #runs_conceded')
+.forEach(el => {
+    el.addEventListener('input', calculateStats);
+});
+
+</script>
 
 <script>
   function updateBar(input) {

@@ -118,21 +118,16 @@
 
             @forelse($messages as $msg)
             <tr>
-                <td class="p-4">Admin</td> {{-- static for now --}}
+                <td class="p-4">{{ $msg->subject ?? 'No Subject' }}</td>
                 
                 <td class="p-4">
-                    {{ $msg->subject ?? 'No Subject' }}
+                    {{ $msg->message ?? 'No message' }}
                 </td>
 
                 <td class="p-4">
                     Message
                 </td>
-
-                <td class="p-4 
-                    {{ $msg->status == 'sent' ? 'text-green-600' : 'text-yellow-600' }}">
-                    
-                    {{ ucfirst($msg->status) }}
-                </td>
+                
             </tr>
             @empty
             <tr>

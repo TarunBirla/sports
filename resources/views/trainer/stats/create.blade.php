@@ -78,12 +78,12 @@
 
                             <a href="{{ url('/student-stats/'.$user->id) }}"
                             class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition duration-200">
-                                📊 Enter Stats
+                                📊 Add Performance
                             </a>
 
                             <a href="{{ url('/student-stats/list/'.$user->id) }}"
                             class="px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg shadow hover:bg-gray-300 transition duration-200">
-                                📋 Stats List
+                                📋 Performance List
                             </a>
 
                         </div>

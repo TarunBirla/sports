@@ -90,7 +90,7 @@
                         <!-- PRICE + ACTION -->
                         <div class="flex items-center justify-between mt-4">
                             <span class="text-yellow-500 font-semibold text-lg">
-                                £{{ $c->price }}
+                                £{{ $c->price }} / month
                             </span>
 
                             <div class="flex gap-2">
