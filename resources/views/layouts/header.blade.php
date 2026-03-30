@@ -77,10 +77,10 @@
               Register
             </a>
 
-            <a href="/vendor/register"
+            {{-- <a href="/vendor/register"
               class="px-4 py-2 rounded-lg border border-white text-gray-200 hover:bg-white hover:text-[#0c1f3f] transition">
               Become Seller
-            </a>
+            </a> --}}
 
           @endif
 
@@ -158,10 +158,10 @@
             Register
           </a>
 
-          <a href="/vendor/register"
+          {{-- <a href="/vendor/register"
             class="px-4 py-2 rounded-lg border border-white text-white hover:bg-white hover:text-[#0c1f3f] transition">
             Become Seller
-          </a>
+          </a> --}}
 
         @endif
 
