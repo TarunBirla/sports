@@ -336,14 +336,14 @@
           Add Performance
         </a>
 
-        <a href="/vendor/userlist" class="nav-link {{ request()->is('vendor/userlist*') ? 'active' : '' }}">
-        <div class="nav-icon" style="background:#e0f2fe">👤</div>
-        All User
-      </a>
-      <a href="/vendor/transactiondetails" class="nav-link {{ request()->is('vendor/transactiondetails*') ? 'active' : '' }}">
-        <div class="nav-icon" style="background:#e0f2fe">📦</div>
-        Transaction Details
-      </a>
+        <a href="/vendor/allusers" class="nav-link {{ request()->is('vendor/allusers*') ? 'active' : '' }}">
+          <div class="nav-icon" style="background:#e0f2fe">👤</div>
+          All Users
+        </a>
+        <a href="/vendor/transactiondetails" class="nav-link {{ request()->is('vendor/transactiondetails*') ? 'active' : '' }}">
+          <div class="nav-icon" style="background:#e0f2fe">📦</div>
+          Transaction Details
+        </a>
       <!-- <a href="/vendor/performance" class="nav-link {{ request()->is('vendor/performance*') ? 'active' : '' }}">
         <div class="nav-icon" style="background:#e0f2fe"> 📊</div>
         Performance

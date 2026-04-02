@@ -147,11 +147,9 @@ Route::get('/profile',[AuthController::class,'profile']);
 // Route::post('/register',[AuthController::class,'register']);
 // Route::post('/login',[AuthController::class,'login']);
 
-Route::get('/vendor/performance', function () {
-    return view('vendor.perfomance');
-})->name('performance');
+Route::get('/vendor/performance', [VendorController::class, 'performance'])->name('vendor.performance');
+Route::get('/vendor/allusers', [VendorController::class, 'allUsers'])->name('vendor.allusers');
 
-Route::get('/vendor/userlist', [VendorController::class, 'userList'])->name('vendor.userlist');
 Route::get('/vendor/userlist', [PaymentController::class, 'userList'])->name('vendor.users');
 // Route::get('/vendor/dashboard', [PaymentController::class, 'vendorDashboard'])
 //     ->name('vendor.dashboard');

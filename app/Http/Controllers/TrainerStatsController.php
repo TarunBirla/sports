@@ -18,75 +18,13 @@ use Illuminate\Support\Facades\Validator;
 
 class TrainerStatsController extends Controller
 {
-    /**
-     * Show the form to enter athlete stats
-     * 
-     * @param int $categoryId
-     * @param int $userId
-     * @return \Illuminate\View\View
-     */
+    
     public function create($categoryId, $userId = null, $courseId = null)
     {
-        try {
 
             $trainerId = session('vendor_id') ?? auth()->id();
-
-            $allusers = User::where('trainer_id', $trainerId)->get();
-
-            if($categoryId == 8){
-
-                $categoryId = 5;
-                
-            }elseif($categoryId == 9){
-                
-                $categoryId = 6;
-            
-            }elseif($categoryId == 10){
-            
-                $categoryId = 3;
-           
-            }elseif($categoryId == 11){
-            
-                $categoryId = 4;
-            
-            }
-            $category = StatCategory::with([
-                'fields' => function ($query) {
-                    $query->where('is_active', true)->ordered();
-                }
-            ])->findOrFail($categoryId);
-
-            // Get fields
-            $fields = $category->fields;
-            if ($fields->isEmpty()) {
-                return back()->with('warning', 'No fields available for this category.');
-            }
-
-            // Get the user (athlete) if provided
-            $user = $userId ? User::findOrFail($userId) : null;
-            $course = $courseId ? Course::findOrFail($courseId) : null;
-            
-
-            $trainerId = session('vendor_id') ?? $user->trainer_id;
-
-
-            Log::info('Stats form accessed', [
-                'trainer_id'  => $trainerId,
-                'category_id' => $categoryId,
-                'user_id'     => $userId,
-                'field_count' => $fields->count(),
-                'course' => $course
-            ]);
-
-            return view('trainer.stats.create', compact('category', 'fields', 'categoryId', 'user', 'course', 'allusers'));
-
-        } catch (\Exception $e) {
-            Log::error('Error loading stats form', [
-                'category_id' => $categoryId,
-                'error' => $e->getMessage()
-            ]);
-            return back()->with('error', 'Unable to load the form.');
-        }
+            $allusers = User::where('trainer_id', $trainerId)->get();       
+            return view('trainer.stats.create', compact( 'trainerId','allusers'));
     }
 
     public function store(Request $request)

@@ -92,7 +92,16 @@ class VendorController extends Controller
         return view('vendor.chat', compact('allusers'));
     }
 
-    public function userList()
+    public function performance()
+    {
+        $vendorId = session('vendor_id');
+
+        $productsCount = Product::where('vendor_id', $vendorId)->count();
+        $coursesCount = Course::where('vendor_id', $vendorId)->count();
+
+        return view('vendor.perfomance', compact('productsCount', 'coursesCount'));
+    }
+    public function allUsers(Request $request)
     {
         $trainerId = session('vendor_id') ?? auth()->id();
 

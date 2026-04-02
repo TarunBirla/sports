@@ -24,9 +24,7 @@
 
         <!-- USER TABLE -->
         <div class="bg-white rounded-xl border shadow-sm overflow-hidden">
-
             <table class="w-full text-sm">
-
                 <thead class="bg-gray-100 text-gray-600">
                     <tr>
                         <th class="p-4 text-left">User</th>
@@ -40,9 +38,7 @@
                 <tbody class="divide-y">
 
                     @foreach($users as $user)
-
                         <tr class="hover:bg-gray-50">
-
                             <td class="p-4 flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center font-bold">
                                     {{ strtoupper(substr($user->name, 0, 1)) }}
