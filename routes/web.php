@@ -50,7 +50,8 @@ Route::get('/orders', [OrderController::class, 'myOrders'])->name('orders');
 
 
 Route::get('/profiles', function () {
-    return view('dashboard.profile');
+    $matches = auth()->user()->matches()->where('status', 'complete')->get();
+    return view('dashboard.profile', compact('matches'));
 })->name('profiles');
 
 Route::get('/payments', [PaymentController::class, 'index'])->name('payments');
@@ -189,7 +190,8 @@ Route::prefix('vendor')->group(function () {
     Route::post('/matches/store', [MatchController::class, 'store'])->name('vendor.matches.store');
     Route::get('/matches/{id}/edit', [MatchController::class, 'edit'])->name('vendor.matches.edit');
     Route::put('/matches/{id}', [MatchController::class, 'update'])->name('vendor.matches.update');
-
+    Route::post('/matches/{id}/update-status', [MatchController::class, 'updateStatus'])
+        ->name('matches.updateStatus');
     Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
     Route::post('/update-rank', [AuthController::class, 'updateRank'])->name('update-rank');
 });

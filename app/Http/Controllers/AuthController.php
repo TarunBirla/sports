@@ -61,6 +61,8 @@ public function profile()
 {
     $userId = auth()->id();
 
+    
+
     // Latest Orders
     $orders = Order::with('items')
                 ->where('user_id', $userId)

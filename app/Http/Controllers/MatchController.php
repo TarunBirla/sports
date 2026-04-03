@@ -13,7 +13,8 @@ class MatchController extends Controller
    public function upcomingMatches()
     {
         $matches = auth()->user()
-            ->matches() // relation
+            ->matches()
+            ->where('status', 'upcoming') // relation
             ->orderBy('match_date', 'asc')
             ->get();
 
@@ -73,6 +74,45 @@ class MatchController extends Controller
 
         return redirect()->route('vendor.matches.index')
                          ->with('success', 'Match created successfully');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:upcoming,complete',
+            'video_url' => 'nullable|url',
+            'video_file' => 'nullable|file|mimes:mp4,mov,avi|max:20480' // 20MB
+        ]);
+
+        $match = Matches::findOrFail($id);
+
+        $videoPath = null;
+
+        // ✅ If file uploaded
+        if ($request->hasFile('video_file')) {
+            $file = $request->file('video_file');
+
+            // Create unique name
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // Move to public folder
+            $file->move(public_path('match_videos'), $filename);
+
+            $videoPath = 'match_videos/' . $filename; // save this in DB
+        }
+
+        // ✅ If URL provided
+        if ($request->video_url) {
+            $videoPath = $request->video_url;
+        }
+
+        // ✅ Update match
+        $match->update([
+            'status' => $request->status,
+            'video_url' => $videoPath
+        ]);
+
+        return back()->with('success', 'Match status updated successfully');
     }
 
     // 📌 Edit Page

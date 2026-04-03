@@ -59,7 +59,7 @@ class StudentStatsController extends Controller
         $economyData = [];
 
         foreach ($performances as $index => $p) {
-            $labels[] = 'M' . ($index + 1);
+             $labels[] = \Carbon\Carbon::parse($p->created_at)->format('M');
 
             $runsData[] = $p->runs ?? 0;
             $strikeRateData[] = $p->strike_rate ?? 0;
@@ -103,6 +103,7 @@ class StudentStatsController extends Controller
             'attendanceData'
         ));
     }
+
     // SHOW FORM WITH DATA
     public function index($userId)
     {

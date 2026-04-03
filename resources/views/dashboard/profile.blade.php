@@ -125,113 +125,91 @@
 
     <!-- Match Highlights -->
 
-        <div>
+      <div>
 
-          <h2 class="text-xl font-semibold mb-4">
+        <h2 class="text-xl font-semibold mb-4">
+            🎬 Match <span class="text-yellow-500">Highlights</span>
+        </h2>
 
-            🎬 Match
-            <span class="text-yellow-500">
-              Highlights
-            </span>
+        <div class="grid md:grid-cols-2 gap-6">
 
-          </h2>
-
-
-          <div class="grid md:grid-cols-2 gap-6">
-
+            @foreach($matches as $match)
             <div class="bg-white p-4 rounded-xl shadow flex gap-4 items-center">
 
-              <div class="bg-blue-100 p-3 rounded-lg">
-                ▶
-              </div>
+                <!-- Play Button -->
+                <div class="bg-blue-100 p-3 rounded-lg cursor-pointer"
+                    onclick="openVideoModal('{{ Str::startsWith($match->video_url, 'http') ? $match->video_url : asset($match->video_url) }}')">
+                    ▶
+                </div>
 
-              <div>
+                <div>
+                    <!-- Title -->
+                    <h4 class="font-medium">
+                        vs {{ $match->opponent_team }} - {{ $match->match_type }}
+                    </h4>
 
-                <h4 class="font-medium">
-                  Century vs City CC - T20 Final
-                </h4>
-
-                <p class="text-sm text-gray-500">
-                  Video Highlight
-                </p>
-
-              </div>
-
-            </div>
-
-
-
-            <div class="bg-white p-4 rounded-xl shadow flex gap-4 items-center">
-
-              <div class="bg-blue-100 p-3 rounded-lg">
-                ▶
-              </div>
-
-              <div>
-
-                <h4 class="font-medium">
-                  Best Bowling 4/22 vs Strikers
-                </h4>
-
-                <p class="text-sm text-gray-500">
-                  Video Highlight
-                </p>
-
-              </div>
+                    <!-- Label -->
+                    <p class="text-sm text-gray-500">
+                        Video Highlight
+                    </p>
+                </div>
 
             </div>
-
-
-
-            <div class="bg-white p-4 rounded-xl shadow flex gap-4 items-center">
-
-              <div class="bg-blue-100 p-3 rounded-lg">
-                ▶
-              </div>
-
-              <div>
-
-                <h4 class="font-medium">
-                  Match Winning Knock 89*
-                </h4>
-
-                <p class="text-sm text-gray-500">
-                  Video Highlight
-                </p>
-
-              </div>
-
-            </div>
-
-
-
-            <div class="bg-white p-4 rounded-xl shadow flex gap-4 items-center">
-
-              <div class="bg-blue-100 p-3 rounded-lg">
-                ▶
-              </div>
-
-              <div>
-
-                <h4 class="font-medium">
-                  Fielding Highlights Reel
-                </h4>
-
-                <p class="text-sm text-gray-500">
-                  Video Highlight
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
+            @endforeach
 
         </div>
 
+    </div>
+
 </div>
 </div>
 </div>
+
+<!-- VIDEO MODAL -->
+<!-- VIDEO MODAL -->
+<div id="videoModal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
+
+    <div class="relative w-full max-w-3xl bg-black rounded-lg overflow-hidden">
+
+        <!-- Close -->
+        <button onclick="closeVideoModal()" 
+            class="absolute top-2 right-2 text-white text-xl z-10">
+            ✕
+        </button>
+
+        <!-- Video -->
+        <video id="videoPlayer" controls class="w-full h-[400px]">
+            <source id="videoSource" src="" type="video/mp4">
+        </video>
+
+    </div>
+</div>
+
+<script>
+function openVideoModal(videoUrl) {
+    let modal = document.getElementById('videoModal');
+    let video = document.getElementById('videoPlayer');
+    let source = document.getElementById('videoSource');
+
+    source.src = videoUrl;
+    video.load();
+    video.play();
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function closeVideoModal() {
+    let modal = document.getElementById('videoModal');
+    let video = document.getElementById('videoPlayer');
+
+    video.pause();
+    video.currentTime = 0;
+
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+</script>
 
 <!-- MODAL -->
 <div id="profileModal"

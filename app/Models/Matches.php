@@ -13,7 +13,9 @@ class Matches extends Model
         'opponent_team',
         'venue',
         'match_type',
+        'video_url',
         'created_by',
+        'status'
     ];
 
     // 🔗 Vendor who created the match
